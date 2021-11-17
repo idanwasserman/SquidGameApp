@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private final int NUM_OF_BLOCKS = 4;
 
     private final int PERIOD = 1000;
-    private final int ROWS = 4, COLS = 3;
+    private final int ROWS = 7, COLS = 5;
     private final int LIVES = 3;
 
 
@@ -238,24 +238,53 @@ public class MainActivity extends AppCompatActivity {
 
         panel_IMG_matrix = new ImageView[][] {
                 new ImageView[] {
-                    findViewById(R.id.panel_IMG_cell00),
-                    findViewById(R.id.panel_IMG_cell01),
-                    findViewById(R.id.panel_IMG_cell02),
+                        findViewById(R.id.panel_IMG_cell00),
+                        findViewById(R.id.panel_IMG_cell01),
+                        findViewById(R.id.panel_IMG_cell02),
+                        findViewById(R.id.panel_IMG_cell03),
+                        findViewById(R.id.panel_IMG_cell04)
                 },
                 new ImageView[] {
                         findViewById(R.id.panel_IMG_cell10),
                         findViewById(R.id.panel_IMG_cell11),
                         findViewById(R.id.panel_IMG_cell12),
+                        findViewById(R.id.panel_IMG_cell13),
+                        findViewById(R.id.panel_IMG_cell14)
                 },
                 new ImageView[] {
                         findViewById(R.id.panel_IMG_cell20),
                         findViewById(R.id.panel_IMG_cell21),
                         findViewById(R.id.panel_IMG_cell22),
+                        findViewById(R.id.panel_IMG_cell23),
+                        findViewById(R.id.panel_IMG_cell24)
                 },
                 new ImageView[] {
                         findViewById(R.id.panel_IMG_cell30),
                         findViewById(R.id.panel_IMG_cell31),
                         findViewById(R.id.panel_IMG_cell32),
+                        findViewById(R.id.panel_IMG_cell33),
+                        findViewById(R.id.panel_IMG_cell34)
+                },
+                new ImageView[] {
+                        findViewById(R.id.panel_IMG_cell40),
+                        findViewById(R.id.panel_IMG_cell41),
+                        findViewById(R.id.panel_IMG_cell42),
+                        findViewById(R.id.panel_IMG_cell43),
+                        findViewById(R.id.panel_IMG_cell44)
+                },
+                new ImageView[] {
+                        findViewById(R.id.panel_IMG_cell50),
+                        findViewById(R.id.panel_IMG_cell51),
+                        findViewById(R.id.panel_IMG_cell52),
+                        findViewById(R.id.panel_IMG_cell53),
+                        findViewById(R.id.panel_IMG_cell54)
+                },
+                new ImageView[] {
+                        findViewById(R.id.panel_IMG_cell60),
+                        findViewById(R.id.panel_IMG_cell61),
+                        findViewById(R.id.panel_IMG_cell62),
+                        findViewById(R.id.panel_IMG_cell63),
+                        findViewById(R.id.panel_IMG_cell64)
                 }
         };
 

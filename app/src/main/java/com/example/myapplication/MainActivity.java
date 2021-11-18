@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.Random;
 import java.util.Timer;
@@ -24,18 +26,29 @@ public class MainActivity extends AppCompatActivity {
     private final int TRIANGLE = 4;
     private final int STAR = 5;
     private final int UMBRELLA = 6;
-    private final int NUM_OF_BLOCKS = 4;
+    private final int COINS = 7;
+    private final int COIN_01 = 8;
+    private final int COIN_05 = 9;
+    private final int COIN_10 = 10;
 
-    private final int PERIOD = 1000;
+    private final int NUM_OF_BLOCKS = 4;
+    private final int NUM_OF_COINS = 3;
+    private final int COIN_CHANCE = 3;
+
+    private int PERIOD = 1000;
+    private final int MIN_PERIOD = 350;
     private final int ROWS = 7, COLS = 5;
     private final int LIVES = 3;
 
 
     // Logical variables
-    private int playerPosition = 1, collisionsCounter = 0;
+    private int playerPosition = 1;
+    private int collisionsCounter = 0;
     private int cells[][] = new int[ROWS][COLS];
     private int counter = 0;
     private boolean gameOver = false;
+    private int score = 0;
+    private boolean scoreChangedFlag = false;
 
     private Timer timer;
     private Vibrator v;
@@ -45,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton panel_BTN_right;
     private ImageView[][] panel_IMG_matrix;
     private ImageView[] panel_ICN_hearts;
+    private TextView panel_TXT_score;
+    private RelativeLayout panel_RL_gameOverMessage;
 
 
     @Override
@@ -76,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
 
                 if (playerPosition > 0) {
-                    if (cells[ROWS - 1][playerPosition - 1] >= BLOCK) {
+                    if (isPlayerCollide(ROWS - 1, playerPosition - 1)) {
                         runOnUiThread(handleCollision);
                     }
                 }
@@ -95,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
 
                 if (playerPosition < COLS - 1) {
-                    if (cells[ROWS - 1][playerPosition + 1] >= BLOCK) {
+                    if (isPlayerCollide(ROWS - 1, playerPosition + 1)) {
                         runOnUiThread(handleCollision);
                     }
                 }
@@ -133,12 +148,30 @@ public class MainActivity extends AppCompatActivity {
         timer.cancel();
     }
 
+
+    // check if player is going to collide a block
+    // if not -> check if player is getting a coin and update score
+    private boolean isPlayerCollide(int rows, int cols) {
+        if (cells[rows][cols] >= BLOCK && cells[rows][cols] < COINS) {
+            return true;
+        } else {
+            if (cells[rows][cols] == COIN_01) {
+                score += 1;
+            } else if (cells[rows][cols] == COIN_05) {
+                score += 5;
+            } else if (cells[rows][cols] == COIN_10) {
+                score += 10;
+            }
+        }
+        return false;
+    }
+
     private void TimerMethod() {
         //This method is called directly by the timer
         //and runs in the same thread as the timer.
 
         // If there is a block one cell above the player -> collision
-        if (cells[ROWS - 2][playerPosition] >= BLOCK) {
+        if (isPlayerCollide(ROWS - 2, playerPosition)) {
             this.runOnUiThread(handleCollision);
         }
 
@@ -146,6 +179,14 @@ public class MainActivity extends AppCompatActivity {
         for (int i = ROWS - 1; i > 0; i--) {
             for (int j = 0; j < COLS; j++) {
                 cells[i][j] = cells[i - 1][j];
+            }
+        }
+
+        // Add score points if last row contains blocks
+        for (int i = 0; i < COLS; i++) {
+            if (cells[ROWS - 1][i] >= BLOCK) {
+                score += 10;
+                scoreChangedFlag = true;
             }
         }
 
@@ -158,11 +199,26 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Random new block every other timer tick
-        if (counter++ % 2 == 0) {
+        if (counter % 2 == 0 || counter % 3 == 0) {
             int randomColumn = new Random().nextInt(COLS);
             int randomBlockImage = new Random().nextInt(NUM_OF_BLOCKS) + BLOCK + 1;
             cells[0][randomColumn] = randomBlockImage;
+
+            // random if need to add a coin to the line
+            int addCoin = new Random().nextInt(COIN_CHANCE);
+            if (addCoin == 0) {
+                int randomCoin = new Random().nextInt(NUM_OF_COINS) + COINS + 1;
+                int randomCoinColumn = new Random().nextInt(COLS);
+                if (randomCoinColumn == randomColumn) {
+                    randomCoinColumn++;
+                    randomCoinColumn %= COLS;
+                }
+                cells[0][randomCoinColumn] = randomCoin;
+            }
         }
+        counter++;
+
+
 
 
         //We call the method that will work with the UI
@@ -187,6 +243,9 @@ public class MainActivity extends AppCompatActivity {
                 gameOver = true;
                 Log.d("d", "GAME OVER!");
                 timer.cancel();
+
+                // Show message
+                panel_RL_gameOverMessage.setVisibility(View.VISIBLE);
             }
         }
     };
@@ -195,6 +254,12 @@ public class MainActivity extends AppCompatActivity {
         public void run() {
 
             //This method runs in the same thread as the UI.
+
+            // Change score
+            if (scoreChangedFlag) {
+                scoreChangedFlag = false;
+                panel_TXT_score.setText("Score: " + score);
+            }
 
             // Check every cell in matrix and update picture
             for (int i = 0; i < ROWS; i++) {
@@ -219,15 +284,22 @@ public class MainActivity extends AppCompatActivity {
                         case UMBRELLA:
                             panel_IMG_matrix[i][j].setImageResource(R.drawable.img_umbrella);
                             break;
+                        case COIN_01:
+                            panel_IMG_matrix[i][j].setImageResource(R.drawable.img_coin_01);
+                            break;
+                        case COIN_05:
+                            panel_IMG_matrix[i][j].setImageResource(R.drawable.img_coin_05);
+                            break;
+                        case COIN_10:
+                            panel_IMG_matrix[i][j].setImageResource(R.drawable.img_coin_10);
+                            break;
 
                         default:
                             Log.d("d", "default: cell " + i + "," + j);
                             break;
                     }
-
                 }
             }
-
         }
     };
 
@@ -235,6 +307,10 @@ public class MainActivity extends AppCompatActivity {
 
         panel_BTN_left = findViewById(R.id.panel_BTN_left);
         panel_BTN_right = findViewById(R.id.panel_BTN_right);
+
+        panel_TXT_score = findViewById(R.id.panel_TXT_score);
+
+        panel_RL_gameOverMessage = findViewById(R.id.panel_RL_gameOverMessage);
 
         panel_IMG_matrix = new ImageView[][] {
                 new ImageView[] {

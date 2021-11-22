@@ -47,4 +47,8 @@ public class Record {
         this.date = date;
         return this;
     }
+
+    public int compareRecord(Record r1, Record r2) {
+        return r1.score - r2.score;
+    }
 }

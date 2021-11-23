@@ -18,23 +18,23 @@
 
         <Button
             android:id="@+id/main_BTN_play"
-            android:layout_width="100dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Play"
             />
 
         <Button
             android:id="@+id/main_BTN_topTen"
-            android:layout_width="100dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Top Ten"
             />
 
         <Button
-            android:id="@+id/main_BTN_exit"
-            android:layout_width="100dp"
+            android:id="@+id/main_BTN_settings"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="Exit"
+            android:text="Settings"
             />
 
     </LinearLayout>

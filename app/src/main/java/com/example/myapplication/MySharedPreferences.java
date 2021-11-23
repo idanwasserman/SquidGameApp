@@ -24,7 +24,6 @@ public class MySharedPreferences {
         return instance;
     }
 
-
     public double getDouble(String KEY, double defaultValue) {
         return Double.parseDouble(getString(KEY, String.valueOf(defaultValue)));
     }
@@ -48,5 +47,4 @@ public class MySharedPreferences {
     public void putString(String KEY, String value) {
         sharedPreferences.edit().putString(KEY, value).apply();
     }
-
 }

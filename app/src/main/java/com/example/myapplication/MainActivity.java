@@ -27,10 +27,11 @@ public class MainActivity extends AppCompatActivity implements SettingsDialog.Se
 
     private boolean sensors = false;
     private boolean sounds = false;
+    private boolean vibrator = false;
 
-    MediaPlayer player;
-
-    private TextView locationText;
+    private MediaPlayer player;
+    private LocationManager locationManager;
+    private double lat=0, lng=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +40,6 @@ public class MainActivity extends AppCompatActivity implements SettingsDialog.Se
 
         findViews();
         setButtonListeners();
-
-        locationText = findViewById(R.id.location);
 
         // Runtime permissions
         if (ContextCompat.checkSelfPermission(
@@ -51,8 +50,6 @@ public class MainActivity extends AppCompatActivity implements SettingsDialog.Se
                     Manifest.permission.ACCESS_FINE_LOCATION
             }, 100);
         }
-
-        getLocation();
     }
 
     @Override
@@ -87,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements SettingsDialog.Se
     };
 
     private void openSettingsDialog() {
-        SettingsDialog settingsDialog = new SettingsDialog(sensors, sounds);
+        SettingsDialog settingsDialog = new SettingsDialog(sensors, sounds, vibrator);
         settingsDialog.show(getSupportFragmentManager(), "settings dialog");
     }
 
@@ -109,9 +106,10 @@ public class MainActivity extends AppCompatActivity implements SettingsDialog.Se
     }
 
     @Override
-    public void apply(boolean sensors, boolean sounds) {
+    public void applySettings(boolean sensors, boolean sounds, boolean vibrator) {
         this.sensors = sensors;
         this.sounds = sounds;
+        this.vibrator = vibrator;
 
         Log.d("settings", "sensors="+sensors+" , sounds="+sounds);
 
@@ -143,8 +141,6 @@ public class MainActivity extends AppCompatActivity implements SettingsDialog.Se
     }
 
 
-    private LocationManager locationManager;
-    private double lat=0, lng=0;
     @SuppressLint("MissingPermission")
     private void getLocation() {
         try {
@@ -157,14 +153,13 @@ public class MainActivity extends AppCompatActivity implements SettingsDialog.Se
             e.printStackTrace();
         }
     }
+
     private LocationListener locationListener = new LocationListener() {
         @Override
         public void onLocationChanged(@NonNull Location location) {
             lat = location.getLatitude();
             lng = location.getLongitude();
             Log.d("GPS", lat + " : " + lng);
-
-            locationText.setText(lat + " : " + lng);
         }
     };
 }

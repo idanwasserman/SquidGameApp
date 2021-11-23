@@ -18,16 +18,19 @@ public class SettingsDialog extends AppCompatDialogFragment {
 
     private SwitchMaterial settings_SWITCH_sensors;
     private SwitchMaterial settings_SWITCH_sounds;
+    private SwitchMaterial settings_SWITCH_vibrator;
 
     private SettingsDialogListener settingsDialogListener;
 
     private boolean sensors = false;
     private boolean sounds = false;
+    private boolean vibrator = false;
 
     SettingsDialog(){}
-    SettingsDialog(boolean sensors, boolean sounds) {
+    SettingsDialog(boolean sensors, boolean sounds, boolean vibrator) {
         this.sensors = sensors;
         this.sounds = sounds;
+        this.vibrator = vibrator;
     }
 
     @NonNull
@@ -39,6 +42,7 @@ public class SettingsDialog extends AppCompatDialogFragment {
         findViews(view);
         settings_SWITCH_sensors.setChecked(sensors);
         settings_SWITCH_sounds.setChecked(sounds);
+        settings_SWITCH_vibrator.setChecked(vibrator);
         builder
                 .setView(view)
                 .setTitle("Settings")
@@ -51,7 +55,10 @@ public class SettingsDialog extends AppCompatDialogFragment {
                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        settingsDialogListener.apply(settings_SWITCH_sensors.isChecked(), settings_SWITCH_sounds.isChecked());
+                        settingsDialogListener.applySettings(
+                                settings_SWITCH_sensors.isChecked(),
+                                settings_SWITCH_sounds.isChecked(),
+                                settings_SWITCH_vibrator.isChecked());
                     }
                 });
 
@@ -73,11 +80,12 @@ public class SettingsDialog extends AppCompatDialogFragment {
     }
 
     public interface SettingsDialogListener {
-        void apply(boolean sensors, boolean sounds);
+        void applySettings(boolean sensors, boolean sounds, boolean vibrator);
     }
 
     private void findViews(View view) {
         settings_SWITCH_sensors = view.findViewById(R.id.settings_SWITCH_sensors);
         settings_SWITCH_sounds = view.findViewById(R.id.settings_SWITCH_sounds);
+        settings_SWITCH_vibrator = view.findViewById(R.id.settings_SWITCH_vibrator);
     }
 }

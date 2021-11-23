@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/idan2/AndroidStudioProjects/MyApplication/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3828125" />
         <entry key="..\:/Users/idan2/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/ic_heart.xml" value="0.6" />
+        <entry key="..\:/Users/idan2/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3828125" />
         <entry key="..\:/Users/idan2/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/ic_left_arrow.xml" value="0.3828125" />
         <entry key="..\:/Users/idan2/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/ic_right_arrow.xml" value="0.3828125" />
         <entry key="..\:/Users/idan2/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/ic_squid.xml" value="0.3828125" />
@@ -16,6 +18,8 @@
         <entry key="..\:/Users/idan2/AndroidStudioProjects/MyApplication/app/src/main/res/layout/fragment_topTenList.xml" value="0.128125" />
         <entry key="..\:/Users/idan2/AndroidStudioProjects/MyApplication/app/src/main/res/layout/fragment_top_ten_list.xml" value="0.2" />
         <entry key="..\:/Users/idan2/AndroidStudioProjects/MyApplication/app/src/main/res/layout/layout_settings_dialog.xml" value="0.27395833333333336" />
+        <entry key="..\:/Users/idan2/AndroidStudioProjects/MyApplication/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3828125" />
+        <entry key="..\:/Users/idan2/AndroidStudioProjects/MyApplication/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.15625" />
       </map>
     </option>
   </component>

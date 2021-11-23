@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.myapplication.objects.MyDatabase;
@@ -57,6 +56,7 @@ public class GameActivity extends AppCompatActivity {
     private boolean gameOver = false;
     private int score = 0;
     private boolean scoreChangedFlag = false;
+    private double lat = 0, lng = 0;
 
     private Timer timer;
     private Vibrator v;
@@ -67,8 +67,6 @@ public class GameActivity extends AppCompatActivity {
     private ImageView[][] panel_IMG_matrix;
     private ImageView[] panel_ICN_hearts;
     private TextView panel_TXT_score;
-    private RelativeLayout panel_RL_gameOverMessage;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,7 +163,7 @@ public class GameActivity extends AppCompatActivity {
         }
     };
 
-    // check if player is going to collide a block
+    // Check if player is going to collide a block
     // if not -> check if player is getting a coin and update score
     private boolean isPlayerCollide(int rows, int cols) {
         if (cells[rows][cols] >= BLOCK && cells[rows][cols] < COINS) {
@@ -234,9 +232,6 @@ public class GameActivity extends AppCompatActivity {
         }
         counter++;
 
-
-
-
         //We call the method that will work with the UI
         //through the runOnUiThread method.
         this.runOnUiThread(updateUI);
@@ -267,11 +262,6 @@ public class GameActivity extends AppCompatActivity {
         gameOver = true;
         timer.cancel();
 
-/*
-        // Show message
-        panel_RL_gameOverMessage.setVisibility(View.VISIBLE);
-        */
-
         updateDatabase();
 
         openActivity(TopTenActivity.class);
@@ -295,9 +285,10 @@ public class GameActivity extends AppCompatActivity {
         // Create a record and store it in my_db
         Record record = new Record()
                 .setDate(new Date())
-                .setLat(0.0)
-                .setLng(0.0)
+                .setLat(lat)
+                .setLng(lng)
                 .setScore(score);
+
 
         my_db.getRecords().add(record);
 
@@ -376,8 +367,6 @@ public class GameActivity extends AppCompatActivity {
 
         panel_TXT_score = findViewById(R.id.panel_TXT_score);
 
-        panel_RL_gameOverMessage = findViewById(R.id.panel_RL_gameOverMessage);
-
         panel_IMG_matrix = new ImageView[][] {
                 new ImageView[] {
                         findViewById(R.id.panel_IMG_cell00),
@@ -437,4 +426,5 @@ public class GameActivity extends AppCompatActivity {
         };
 
     }
+
 }

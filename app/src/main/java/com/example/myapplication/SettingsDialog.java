@@ -21,6 +21,15 @@ public class SettingsDialog extends AppCompatDialogFragment {
 
     private SettingsDialogListener settingsDialogListener;
 
+    private boolean sensors = false;
+    private boolean sounds = false;
+
+    SettingsDialog(){}
+    SettingsDialog(boolean sensors, boolean sounds) {
+        this.sensors = sensors;
+        this.sounds = sounds;
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -28,6 +37,8 @@ public class SettingsDialog extends AppCompatDialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.layout_settings_dialog, null);
         findViews(view);
+        settings_SWITCH_sensors.setChecked(sensors);
+        settings_SWITCH_sounds.setChecked(sounds);
         builder
                 .setView(view)
                 .setTitle("Settings")

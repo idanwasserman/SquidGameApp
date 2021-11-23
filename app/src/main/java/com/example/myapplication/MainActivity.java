@@ -1,13 +1,23 @@
 package com.example.myapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements SettingsDialog.SettingsDialogListener {
 
@@ -20,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements SettingsDialog.Se
 
     MediaPlayer player;
 
+    private TextView locationText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,27 +39,21 @@ public class MainActivity extends AppCompatActivity implements SettingsDialog.Se
 
         findViews();
         setButtonListeners();
-    }
 
-/*    @Override
-    protected void onStart() {
-        super.onStart();
+        locationText = findViewById(R.id.location);
 
-        if (sounds) {
-            if (player != null) {
-                player.start();
-            }
+        // Runtime permissions
+        if (ContextCompat.checkSelfPermission(
+                MainActivity.this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[] {
+                    Manifest.permission.ACCESS_FINE_LOCATION
+            }, 100);
         }
+
+        getLocation();
     }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        if (player != null) {
-            player.pause();
-        }
-    }*/
 
     @Override
     protected void onDestroy() {
@@ -81,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements SettingsDialog.Se
     };
 
     private void openSettingsDialog() {
-        SettingsDialog settingsDialog = new SettingsDialog();
+        SettingsDialog settingsDialog = new SettingsDialog(sensors, sounds);
         settingsDialog.show(getSupportFragmentManager(), "settings dialog");
     }
 
@@ -135,4 +141,30 @@ public class MainActivity extends AppCompatActivity implements SettingsDialog.Se
             player.pause();
         }
     }
+
+
+    private LocationManager locationManager;
+    private double lat=0, lng=0;
+    @SuppressLint("MissingPermission")
+    private void getLocation() {
+        try {
+            locationManager = (LocationManager) getApplicationContext()
+                    .getSystemService(LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private LocationListener locationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(@NonNull Location location) {
+            lat = location.getLatitude();
+            lng = location.getLongitude();
+            Log.d("GPS", lat + " : " + lng);
+
+            locationText.setText(lat + " : " + lng);
+        }
+    };
 }

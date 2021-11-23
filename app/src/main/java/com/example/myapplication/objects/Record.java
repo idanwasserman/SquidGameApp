@@ -48,7 +48,9 @@ public class Record {
         return this;
     }
 
-    public int compareRecord(Record r1, Record r2) {
-        return r1.score - r2.score;
+    @Override
+    public String toString() {
+        return score + " pts, " + date.getDay() + "/" + date.getMonth();
     }
+
 }

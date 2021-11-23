@@ -15,8 +15,8 @@ public class MainActivity extends AppCompatActivity implements SettingsDialog.Se
     private Button main_BTN_topTen;
     private Button main_BTN_settings;
 
-    private boolean sensors;
-    private boolean sounds;
+    private boolean sensors = false;
+    private boolean sounds = false;
 
     MediaPlayer player;
 
@@ -27,6 +27,36 @@ public class MainActivity extends AppCompatActivity implements SettingsDialog.Se
 
         findViews();
         setButtonListeners();
+    }
+
+/*    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (sounds) {
+            if (player != null) {
+                player.start();
+            }
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (player != null) {
+            player.pause();
+        }
+    }*/
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (player != null) {
+            player.stop();
+        }
+        finish();
     }
 
     private View.OnClickListener playBtnListener = new View.OnClickListener() {

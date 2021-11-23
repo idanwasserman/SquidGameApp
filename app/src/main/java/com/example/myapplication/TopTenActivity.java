@@ -33,17 +33,23 @@ public class TopTenActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().add(R.id.frame2, fragment_map).commit();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
+    }
+
     View.OnClickListener mainMenuBtnListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            openActivity(MainActivity.class);
+            finish();
         }
     };
 
-    private void openActivity(Class c) {
+/*    private void openActivity(Class c) {
         Intent intent = new Intent(getApplicationContext(), c);
         startActivity(intent);
-    }
+    }*/
 
     private void findViews() {
         topTen_BTN_mainMenu = findViewById(R.id.topTen_BTN_mainMenu);

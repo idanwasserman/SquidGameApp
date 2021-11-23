@@ -124,6 +124,12 @@ public class GameActivity extends AppCompatActivity {
         timer.cancel();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
+    }
+
     private View.OnClickListener leftButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {

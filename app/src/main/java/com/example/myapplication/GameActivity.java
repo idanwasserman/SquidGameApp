@@ -56,10 +56,9 @@ public class GameActivity extends AppCompatActivity {
     private boolean gameOver = false;
     private int score = 0;
     private boolean scoreChangedFlag = false;
-    private double lat = 0, lng = 0;
 
     private Timer timer;
-    private Vibrator v;
+    private Vibrator vibrator;
 
     // Panel objects
     private ImageButton panel_BTN_left;
@@ -68,13 +67,29 @@ public class GameActivity extends AppCompatActivity {
     private ImageView[] panel_ICN_hearts;
     private TextView panel_TXT_score;
 
+    // Bundle objects
+    private boolean vibratorFlag;
+    private double lat = 0, lng = 0;
+
+    private static final String LAT = "LAT";
+    private static final String LNG = "LNG";
+    private static final String VIBRATOR_FLAG = "VIBRATOR_FLAG";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
         findViews();
-        v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
+        // Unpack bundle objects
+        Bundle bundle = getIntent().getBundleExtra("BUNDLE");
+        vibratorFlag = bundle.getBoolean(VIBRATOR_FLAG);
+        lat = bundle.getDouble(LAT);
+        lng = bundle.getDouble(LNG);
+
+        Log.d("GPS_TAG", "GameActivity\nlat: " + lat + "\nlng: " + lng);
     }
 
     @Override
@@ -240,7 +255,9 @@ public class GameActivity extends AppCompatActivity {
     private Runnable handleCollision = new Runnable() {
         public void run() {
             // Vibrate when collide a block
-            v.vibrate(500);
+            if (vibratorFlag) {
+                vibrator.vibrate(500);
+            }
 
             // Remove one heart
             if (collisionsCounter < panel_ICN_hearts.length) {
@@ -257,8 +274,9 @@ public class GameActivity extends AppCompatActivity {
 
     private void endGame() {
         Log.d("d", "GAME OVER!");
-
-        v.vibrate(500);
+        if (vibratorFlag) {
+            vibrator.vibrate(500);
+        }
         gameOver = true;
         timer.cancel();
 
@@ -288,7 +306,6 @@ public class GameActivity extends AppCompatActivity {
                 .setLat(lat)
                 .setLng(lng)
                 .setScore(score);
-
 
         my_db.getRecords().add(record);
 

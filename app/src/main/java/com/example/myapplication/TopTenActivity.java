@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.myapplication.objects.Record;
+import com.google.android.gms.maps.model.LatLng;
+
 public class TopTenActivity extends AppCompatActivity {
 
     private Button topTen_BTN_mainMenu;
@@ -24,12 +27,12 @@ public class TopTenActivity extends AppCompatActivity {
 
         fragment_topTenList = new Fragment_TopTenList();
         fragment_topTenList.setActivity(this);
-        // set callback
+        fragment_topTenList.setCallBack_list(callBack_list);
         getSupportFragmentManager().beginTransaction().add(R.id.frame1, fragment_topTenList).commit();
 
         fragment_map = new Fragment_Map();
         fragment_map.setActivity(this);
-        // set callback
+        //
         getSupportFragmentManager().beginTransaction().add(R.id.frame2, fragment_map).commit();
     }
 
@@ -46,10 +49,19 @@ public class TopTenActivity extends AppCompatActivity {
         }
     };
 
-/*    private void openActivity(Class c) {
-        Intent intent = new Intent(getApplicationContext(), c);
-        startActivity(intent);
-    }*/
+/*    CallBack_Map callBack_map = new CallBack_Map() {
+        @Override
+        public void getMapLocation(double lat, double lng) {
+
+        }
+    };*/
+
+    CallBack_List callBack_list = new CallBack_List() {
+        @Override
+        public void setMapLocation(double lat, double lng) {
+            fragment_map.setFocusOnMapByLocation(new LatLng(lat, lng));
+        }
+    };
 
     private void findViews() {
         topTen_BTN_mainMenu = findViewById(R.id.topTen_BTN_mainMenu);

@@ -1,10 +1,11 @@
 package com.example.myapplication;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,7 +25,7 @@ public class Fragment_TopTenList extends Fragment {
 
     private AppCompatActivity activity;
 
-    private TextView[] list_TXT_arr;
+    private Button[] list_TXT_arr;
 
     private CallBack_List callBack_list;
 
@@ -34,7 +35,6 @@ public class Fragment_TopTenList extends Fragment {
     private final String defDbVal = "{\"records\":[]}";
     private final int TEN = 10;
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -43,8 +43,94 @@ public class Fragment_TopTenList extends Fragment {
         findViews(view);
         fillTopTenList();
         showTopTenList();
+        initViews();
 
         return view;
+    }
+
+    private int i;
+    private void initViews() {
+        /*int size = topTen.size();
+        for (i = 0; i < size; i++) {
+            if (i >= size) return;
+            list_TXT_arr[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    callBack_list.setMapLocation(topTen.get(i).getLat(), topTen.get(i).getLng());
+                }
+            });
+        }*/
+
+        list_TXT_arr[0].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callBack_list.setMapLocation(topTen.get(0).getLat(), topTen.get(0).getLng());
+            }
+        });
+
+        list_TXT_arr[1].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callBack_list.setMapLocation(topTen.get(1).getLat(), topTen.get(1).getLng());
+            }
+        });
+
+        list_TXT_arr[2].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callBack_list.setMapLocation(topTen.get(2).getLat(), topTen.get(2).getLng());
+            }
+        });
+
+        list_TXT_arr[3].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callBack_list.setMapLocation(topTen.get(3).getLat(), topTen.get(3).getLng());
+            }
+        });
+
+        list_TXT_arr[4].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callBack_list.setMapLocation(topTen.get(4).getLat(), topTen.get(4).getLng());
+            }
+        });
+
+        list_TXT_arr[5].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callBack_list.setMapLocation(topTen.get(5).getLat(), topTen.get(5).getLng());
+            }
+        });
+
+        list_TXT_arr[6].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callBack_list.setMapLocation(topTen.get(6).getLat(), topTen.get(6).getLng());
+            }
+        });
+
+        list_TXT_arr[7].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callBack_list.setMapLocation(topTen.get(7).getLat(), topTen.get(7).getLng());
+            }
+        });
+
+        list_TXT_arr[8].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callBack_list.setMapLocation(topTen.get(8).getLat(), topTen.get(8).getLng());
+            }
+        });
+
+        list_TXT_arr[9].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callBack_list.setMapLocation(topTen.get(9).getLat(), topTen.get(9).getLng());
+            }
+        });
+
     }
 
     private void showTopTenList() {
@@ -89,7 +175,7 @@ public class Fragment_TopTenList extends Fragment {
     }
 
     private void findViews(View view) {
-        list_TXT_arr = new TextView[] {
+        list_TXT_arr = new Button[] {
                 view.findViewById(R.id.list_TXT_1),
                 view.findViewById(R.id.list_TXT_2),
                 view.findViewById(R.id.list_TXT_3),

@@ -30,68 +30,69 @@
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:layout_centerHorizontal="true"
+                android:padding="5dp"
                 >
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <Button
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:text="1"
-                    android:textSize="15sp"
+                    android:textSize="10sp"
                     android:layout_centerHorizontal="true"
                     android:textColor="@color/black"
                     android:id="@+id/list_TXT_1"
                     >
 
-                </TextView>
+                </Button>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <Button
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:text="2"
-                    android:textSize="15sp"
+                    android:textSize="10sp"
                     android:layout_centerHorizontal="true"
                     android:textColor="@color/black"
                     android:id="@+id/list_TXT_2"
                     >
-                </TextView>
+                </Button>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <Button
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:text="3"
-                    android:textSize="15sp"
+                    android:textSize="10sp"
                     android:layout_centerHorizontal="true"
                     android:textColor="@color/black"
                     android:id="@+id/list_TXT_3"
                     >
-                </TextView>
+                </Button>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <Button
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:text="4"
-                    android:textSize="15sp"
+                    android:textSize="10sp"
                     android:layout_centerHorizontal="true"
                     android:textColor="@color/black"
                     android:id="@+id/list_TXT_4"
                     >
-                </TextView>
+                </Button>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <Button
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:text="5"
-                    android:textSize="15sp"
+                    android:textSize="10sp"
                     android:layout_centerHorizontal="true"
                     android:textColor="@color/black"
                     android:id="@+id/list_TXT_5"
                     >
-                </TextView>
+                </Button>
 
             </LinearLayout>
 
@@ -101,68 +102,69 @@
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:layout_centerHorizontal="true"
+                android:padding="5dp"
                 >
 
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <Button
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:text="6"
-                    android:textSize="15sp"
+                    android:textSize="10sp"
                     android:layout_centerHorizontal="true"
                     android:textColor="@color/black"
                     android:id="@+id/list_TXT_6"
                     >
-                </TextView>
+                </Button>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <Button
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:text="7"
-                    android:textSize="15sp"
+                    android:textSize="10sp"
                     android:layout_centerHorizontal="true"
                     android:textColor="@color/black"
                     android:id="@+id/list_TXT_7"
                     >
-                </TextView>
+                </Button>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <Button
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:text="8"
-                    android:textSize="15sp"
+                    android:textSize="10sp"
                     android:layout_centerHorizontal="true"
                     android:textColor="@color/black"
                     android:id="@+id/list_TXT_8"
                     >
-                </TextView>
+                </Button>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <Button
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:text="9"
-                    android:textSize="15sp"
+                    android:textSize="10sp"
                     android:layout_centerHorizontal="true"
                     android:textColor="@color/black"
                     android:id="@+id/list_TXT_9"
                     >
-                </TextView>
+                </Button>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <Button
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:text="10"
-                    android:textSize="15sp"
+                    android:textSize="10sp"
                     android:layout_centerHorizontal="true"
                     android:textColor="@color/black"
                     android:id="@+id/list_TXT_10"
                     >
-                </TextView>
+                </Button>
 
             </LinearLayout>
 

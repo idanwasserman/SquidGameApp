@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface CallBack_List {
 
-    void setMapLocationByRecord(Record record);
+    void setMapLocation(double lat, double lng);
 
 }

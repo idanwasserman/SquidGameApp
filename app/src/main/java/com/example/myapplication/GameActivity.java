@@ -16,6 +16,7 @@ import com.example.myapplication.objects.MyDatabase;
 import com.example.myapplication.objects.Record;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 import java.util.Timer;

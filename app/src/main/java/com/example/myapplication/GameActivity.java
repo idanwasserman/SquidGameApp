@@ -4,7 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
@@ -19,8 +24,6 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -41,13 +44,22 @@ public class GameActivity extends AppCompatActivity {
     private final int NUM_OF_COINS = 3;
     private final int COIN_CHANCE = 3;
 
-    private int PERIOD = 1000;
-    private final int MIN_PERIOD = 350;
-    private final int ROWS = 7, COLS = 5;
+    private final int ROWS = 7;
+    private final int COLS = 5;
     private final int LIVES = 3;
 
+    public static final String LAT = "LAT";
+    public static final String LNG = "LNG";
+    public static final String VIBRATOR_FLAG = "VIBRATOR_FLAG";
     private final String MY_DB_NAME = "SQUID_GAME_DB";
+   // private final String BUNDLE = "BUNDLE";
     private final String defDbVal = "{\"records\":[]}";
+
+    private final int MIN_PERIOD = 300;
+    private final int MAX_PERIOD = 1070;
+    private final int Z_SPACES = 11;
+    private final int Z_AVG_CHANGE = (MAX_PERIOD - MIN_PERIOD) / Z_SPACES;
+    private int period = MAX_PERIOD;
 
     // Logical variables
     private int playerPosition = 1;
@@ -57,9 +69,13 @@ public class GameActivity extends AppCompatActivity {
     private boolean gameOver = false;
     private int score = 0;
     private boolean scoreChangedFlag = false;
+    private boolean xChanged = false;
+    private int lastX, lastZ = 0;
 
-    private Timer timer;
+    private Handler timerHandler = new Handler();
     private Vibrator vibrator;
+    private Sensor accSensor;
+    private SensorManager sensorManager;
 
     // Panel objects
     private ImageButton panel_BTN_left;
@@ -69,12 +85,9 @@ public class GameActivity extends AppCompatActivity {
     private TextView panel_TXT_score;
 
     // Bundle objects
+    private Bundle bundle;
     private boolean vibratorFlag;
     private double lat = 0, lng = 0;
-
-    private static final String LAT = "LAT";
-    private static final String LNG = "LNG";
-    private static final String VIBRATOR_FLAG = "VIBRATOR_FLAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,14 +96,13 @@ public class GameActivity extends AppCompatActivity {
 
         findViews();
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        initSensor();
 
         // Unpack bundle objects
-        Bundle bundle = getIntent().getBundleExtra("BUNDLE");
+        bundle = getIntent().getBundleExtra(MainActivity.BUNDLE);
         vibratorFlag = bundle.getBoolean(VIBRATOR_FLAG);
         lat = bundle.getDouble(LAT);
         lng = bundle.getDouble(LNG);
-
-        Log.d("GPS_TAG", "GameActivity\nlat: " + lat + "\nlng: " + lng);
     }
 
     @Override
@@ -115,33 +127,52 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        sensorManager.registerListener(sensorEventListener, accSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
-        // If game is not over -> start timer
-        if (!gameOver)
-        {
-            // TIMER
-            timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    TimerMethod();
-                }
-            }, 0, PERIOD);
+        // If game is not over -> run timer method
+        if (!gameOver) {
+            runnableTimerMethod.run();
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
-        // If user doesn't focus on game -> cancel timer
-        timer.cancel();
+        sensorManager.unregisterListener(sensorEventListener, accSensor);
+        // If user doesn't focus on game -> cancel timer handler
+        timerHandler.removeCallbacks(runnableTimerMethod);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         finish();
+    }
+
+    private SensorEventListener sensorEventListener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            int x, y, z;
+            x = (int) event.values[0];
+            y = (int) event.values[1];
+            z = (int) event.values[2];
+
+            // TODO: Check x : if changed --> change position
+
+            updatePeriodByZ(z);
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+        }
+    };
+
+    private void updatePeriodByZ(int z) {
+        if ((z >= 0 && z <= 10) && (z != lastZ)) {
+            period = MAX_PERIOD - z * Z_AVG_CHANGE;
+            lastZ = z;
+        }
     }
 
     private View.OnClickListener leftButtonListener = new View.OnClickListener() {
@@ -246,6 +277,7 @@ public class GameActivity extends AppCompatActivity {
                 cells[0][randomCoinColumn] = randomCoin;
             }
         }
+
         counter++;
 
         //We call the method that will work with the UI
@@ -253,18 +285,26 @@ public class GameActivity extends AppCompatActivity {
         this.runOnUiThread(updateUI);
     }
 
+    private Runnable runnableTimerMethod = new Runnable() {
+        @Override
+        public void run() {
+            TimerMethod();
+            timerHandler.postDelayed(runnableTimerMethod, period);
+        }
+    };
+
     private Runnable handleCollision = new Runnable() {
         public void run() {
             // Vibrate when collide a block
             if (vibratorFlag) {
-                vibrator.vibrate(500);
+                vibrator.vibrate(750);
             }
 
             // Remove one heart
             if (collisionsCounter < panel_ICN_hearts.length) {
                 panel_ICN_hearts[collisionsCounter++].setVisibility(View.INVISIBLE); // Collisions counter increased by 1
             }
-            Log.d("tag", "Collision #" + collisionsCounter);
+            Log.d("GameActivity", "Collision #" + collisionsCounter);
 
             // Check if game is over
             if (collisionsCounter == LIVES) {
@@ -274,15 +314,21 @@ public class GameActivity extends AppCompatActivity {
     };
 
     private void endGame() {
-        Log.d("d", "GAME OVER!");
-        if (vibratorFlag) {
-            vibrator.vibrate(500);
-        }
+        Log.d("GameActivity", "GAME OVER!");
         gameOver = true;
-        timer.cancel();
 
+        // Longer vibrate
+        if (vibratorFlag) {
+            vibrator.vibrate(800);
+        }
+
+        // Cancel timer handler
+        timerHandler.removeCallbacks(runnableTimerMethod);
+
+        // Create game record and update the database
         updateDatabase();
 
+        // Open top ten activity after game is over
         openActivity(TopTenActivity.class);
     }
 
@@ -308,6 +354,7 @@ public class GameActivity extends AppCompatActivity {
                 .setLng(lng)
                 .setScore(score);
 
+//        cleanRecordsFromDatabase(my_db);
         my_db.getRecords().add(record);
 
         // Store my_db in app shared preferences
@@ -320,9 +367,20 @@ public class GameActivity extends AppCompatActivity {
                 );
     }
 
+    private void cleanRecordsFromDatabase(MyDatabase my_db) {
+        my_db.setRecords(new ArrayList<Record>());
+    }
+
     private void openActivity(Class c) {
         Intent intent = new Intent(getApplicationContext(), c);
+        // Add bundle to intent
+        intent.putExtra("BUNDLE", bundle);
         startActivity(intent);
+    }
+
+    private void initSensor() {
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        accSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
     }
 
     private Runnable updateUI = new Runnable() {

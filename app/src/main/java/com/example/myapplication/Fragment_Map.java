@@ -21,6 +21,7 @@ public class Fragment_Map extends Fragment {
 
     private AppCompatActivity activity;
 
+    private boolean isMapReady = false;
     private GoogleMap mMap;
     private MarkerOptions markerOptions;
     private final int ZOOM = 15;
@@ -39,6 +40,7 @@ public class Fragment_Map extends Fragment {
             @Override
             public void onMapReady(@NonNull GoogleMap googleMap) {
                 mMap = googleMap;
+                isMapReady = true;
 
                 // Set map to zoom on college location at first
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(collegeLocation, ZOOM));
@@ -65,5 +67,13 @@ public class Fragment_Map extends Fragment {
         // Add marker on map
         mMap.clear();
         mMap.addMarker(markerOptions);
+    }
+
+    public boolean isMapReady() {
+        return isMapReady;
+    }
+
+    public void setMapReady(boolean mapReady) {
+        isMapReady = mapReady;
     }
 }

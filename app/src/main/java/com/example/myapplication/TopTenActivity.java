@@ -17,23 +17,33 @@ public class TopTenActivity extends AppCompatActivity {
     private Fragment_TopTenList fragment_topTenList;
     private Fragment_Map fragment_map;
 
+//    private static final String LAT = "LAT";
+//    private static final String LNG = "LNG";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_top_ten);
 
         findViews();
+
+        // Main menu button
         topTen_BTN_mainMenu.setOnClickListener(mainMenuBtnListener);
 
+        // Top ten list fragment
         fragment_topTenList = new Fragment_TopTenList();
         fragment_topTenList.setActivity(this);
         fragment_topTenList.setCallBack_list(callBack_list);
         getSupportFragmentManager().beginTransaction().add(R.id.frame1, fragment_topTenList).commit();
 
+        // Map fragment
         fragment_map = new Fragment_Map();
         fragment_map.setActivity(this);
-        //
         getSupportFragmentManager().beginTransaction().add(R.id.frame2, fragment_map).commit();
+
+        Bundle bundle = getIntent().getBundleExtra(MainActivity.BUNDLE);
+        double lat = bundle.getDouble(GameActivity.LAT);
+        double lng = bundle.getDouble(GameActivity.LNG);
     }
 
     @Override
@@ -48,13 +58,6 @@ public class TopTenActivity extends AppCompatActivity {
             finish();
         }
     };
-
-/*    CallBack_Map callBack_map = new CallBack_Map() {
-        @Override
-        public void getMapLocation(double lat, double lng) {
-
-        }
-    };*/
 
     CallBack_List callBack_list = new CallBack_List() {
         @Override

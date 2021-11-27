@@ -3,7 +3,6 @@ package com.example.myapplication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -12,21 +11,22 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
+import com.example.myapplication.objects.MyDatabase;
+import com.example.myapplication.objects.Record;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -42,18 +42,23 @@ public class MainActivity extends AppCompatActivity implements SettingsDialog.Se
 
     private FusedLocationProviderClient fusedLocationProviderClient;
     private MediaPlayer player;
-//    private LocationManager locationManager;
     private double lat, lng;
+
+    public static final String BUNDLE = "BUNDLE";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Long time1 = System.currentTimeMillis();
+        Log.d("TIME", "time1: " + time1);
+
         findViews();
         setButtonListeners();
 
-        // init fusedLocationProviderClient
+        // Initialize fusedLocationProviderClient
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         // Check location permission
@@ -65,6 +70,14 @@ public class MainActivity extends AppCompatActivity implements SettingsDialog.Se
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
         }
 
+        Long time2 = System.currentTimeMillis();
+        Log.d("TIME", "time2: " + time2);
+
+        if (time1 > time2) {
+            Log.d("TIME", "time1 > time2");
+        } else {
+            Log.d("TIME", "time2 > time1");
+        }
     }
 
     @Override
@@ -106,12 +119,14 @@ public class MainActivity extends AppCompatActivity implements SettingsDialog.Se
     private void openActivity(Class c) {
         Intent intent = new Intent(getApplicationContext(), c);
 
+        // Pack bundle
         Bundle bundle = new Bundle();
-        bundle.putBoolean("VIBRATOR", vibrator);
-        bundle.putDouble("LAT", lat);
-        bundle.putDouble("LNG", lng);
+        bundle.putBoolean(GameActivity.VIBRATOR_FLAG, vibrator);
+        bundle.putDouble(GameActivity.LAT, lat);
+        bundle.putDouble(GameActivity.LNG, lng);
 
-        intent.putExtra("BUNDLE", bundle);
+        // Add bundle to intent
+        intent.putExtra(BUNDLE, bundle);
         startActivity(intent);
     }
 
@@ -132,8 +147,6 @@ public class MainActivity extends AppCompatActivity implements SettingsDialog.Se
         this.sensors = sensors;
         this.sounds = sounds;
         this.vibrator = vibrator;
-
-        Log.d("settings", "sensors="+sensors+" , sounds="+sounds);
 
         if (sounds) {
             play();
@@ -177,8 +190,6 @@ public class MainActivity extends AppCompatActivity implements SettingsDialog.Se
                         );
                         lat = addressList.get(0).getLatitude();
                         lng = addressList.get(0).getLongitude();
-                        Log.d("GPS_TAG", "MainActivity\nlat: " + lat + "\nlng: " + lng);
-
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

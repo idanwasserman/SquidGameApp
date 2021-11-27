@@ -8,28 +8,6 @@
     android:keepScreenOn="true"
     >
 
-    <!--    game over message   -->
-    <RelativeLayout
-        android:id="@+id/panel_RL_gameOverMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#ffff00"
-        android:layout_centerInParent="true"
-        android:visibility="invisible"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Game Over!"
-            android:textSize="30sp"
-            android:padding="15dp"
-            >
-
-        </TextView>
-
-    </RelativeLayout>
-
     <!--    lanes    -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -51,8 +29,7 @@
                 android:layout_alignTop="@+id/panel_LL_hearts"
                 android:paddingStart="15dp"
                 android:text="Score: 0"
-                android:textSize="30sp"
-                >
+                android:textSize="30sp">
 
             </TextView>
 

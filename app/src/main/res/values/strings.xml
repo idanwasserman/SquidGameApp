@@ -1,5 +1,14 @@
 <resources>
     <string name="app_name">Squid Game</string>
-    <string name="left">left</string>
-    <string name="right">right</string>
+    <string name="left">Left</string>
+    <string name="right">Right</string>
+    <string name="vibrator">Vibrator</string>
+    <string name="settings">Settings</string>
+    <string name="main_menu">Main Menu</string>
+    <string name="play">Play</string>
+    <string name="top_ten">Top Ten</string>
+    <string name="sounds">Sounds</string>
+    <string name="sensors">Sensors</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 </resources>

@@ -26,7 +26,6 @@ public class SettingsDialog extends AppCompatDialogFragment {
     private boolean sounds = false;
     private boolean vibrator = false;
 
-    SettingsDialog(){}
     SettingsDialog(boolean sensors, boolean sounds, boolean vibrator) {
         this.sensors = sensors;
         this.sounds = sounds;
@@ -45,14 +44,12 @@ public class SettingsDialog extends AppCompatDialogFragment {
         settings_SWITCH_vibrator.setChecked(vibrator);
         builder
                 .setView(view)
-                .setTitle("Settings")
-                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                .setTitle(R.string.settings)
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
+                    public void onClick(DialogInterface dialog, int which) { }
                 })
-                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         settingsDialogListener.applySettings(

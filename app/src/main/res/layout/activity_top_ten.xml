@@ -19,7 +19,7 @@
             android:id="@+id/info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Top Ten"
+            android:text="@string/top_ten"
             android:textColor="@color/black"
             android:textSize="30sp" />
 

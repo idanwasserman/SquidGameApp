@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:keepScreenOn="true"
+    android:background="@drawable/img_game_bg"
     >
 
     <!--    lanes    -->
@@ -13,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="60dp"
         >
 
         <RelativeLayout
@@ -75,6 +76,7 @@
 
 
         <LinearLayout
+            android:layout_marginTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"

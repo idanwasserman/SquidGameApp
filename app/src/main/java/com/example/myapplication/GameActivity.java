@@ -52,7 +52,6 @@ public class GameActivity extends AppCompatActivity {
     public static final String LNG = "LNG";
     public static final String VIBRATOR_FLAG = "VIBRATOR_FLAG";
     private final String MY_DB_NAME = "SQUID_GAME_DB";
-   // private final String BUNDLE = "BUNDLE";
     private final String defDbVal = "{\"records\":[]}";
 
     private final int MIN_PERIOD = 300;
@@ -216,51 +215,45 @@ public class GameActivity extends AppCompatActivity {
         if (cells[rows][cols] >= BLOCK && cells[rows][cols] < COINS) {
             return true;
         } else {
-            if (cells[rows][cols] == COIN_01) {
-                score += 1;
-            } else if (cells[rows][cols] == COIN_05) {
-                score += 5;
-            } else if (cells[rows][cols] == COIN_10) {
-                score += 10;
+            switch (cells[rows][cols]) {
+                case COIN_01:
+                    score += 1;
+                    break;
+                case COIN_05:
+                    score += 5;
+                    break;
+                case COIN_10:
+                    score += 10;
+                    break;
             }
         }
         return false;
     }
 
     private void TimerMethod() {
-        //This method is called directly by the timer
-        //and runs in the same thread as the timer.
-
         // If there is a block one cell above the player -> collision
         if (isPlayerCollide(ROWS - 2, playerPosition)) {
             this.runOnUiThread(handleCollision);
         }
 
-        // Move all the blocks one row down
-        for (int i = ROWS - 1; i > 0; i--) {
-            for (int j = 0; j < COLS; j++) {
-                cells[i][j] = cells[i - 1][j];
-            }
-        }
+        moveBlocksOneRowDown();
 
-        // Add score points if last row contains blocks
-        for (int i = 0; i < COLS; i++) {
-            if (cells[ROWS - 1][i] >= BLOCK) {
-                score += 10;
-                scoreChangedFlag = true;
-            }
-        }
+        addScoreIfPassedBlocks();
 
         // Player position in cells may have been overridden
         cells[ROWS - 1][playerPosition] = PLAYER;
 
-        // Empty first row
-        for (int i = 0; i < COLS; i++) {
-            cells[0][i] = EMPTY;
-        }
+        emptyFirstRow();
 
-        // Random new block every other timer tick
-        if (counter % 2 == 0 || counter % 3 == 0) {
+        randomNewBlock();
+
+        //We call the method that will work with the UI
+        //through the runOnUiThread method.
+        this.runOnUiThread(updateUI);
+    }
+
+    private void randomNewBlock() {
+        if (counter % 2 == 0 || counter % 3 == 0 || counter % 5 == 0) {
             int randomColumn = new Random().nextInt(COLS);
             int randomBlockImage = new Random().nextInt(NUM_OF_BLOCKS) + BLOCK + 1;
             cells[0][randomColumn] = randomBlockImage;
@@ -279,10 +272,29 @@ public class GameActivity extends AppCompatActivity {
         }
 
         counter++;
+    }
 
-        //We call the method that will work with the UI
-        //through the runOnUiThread method.
-        this.runOnUiThread(updateUI);
+    private void emptyFirstRow() {
+        for (int i = 0; i < COLS; i++) {
+            cells[0][i] = EMPTY;
+        }
+    }
+
+    private void addScoreIfPassedBlocks() {
+        for (int i = 0; i < COLS; i++) {
+            if (cells[ROWS - 1][i] >= BLOCK) {
+                score += 10;
+                scoreChangedFlag = true;
+            }
+        }
+    }
+
+    private void moveBlocksOneRowDown() {
+        for (int i = ROWS - 1; i > 0; i--) {
+            for (int j = 0; j < COLS; j++) {
+                cells[i][j] = cells[i - 1][j];
+            }
+        }
     }
 
     private Runnable runnableTimerMethod = new Runnable() {
@@ -317,7 +329,7 @@ public class GameActivity extends AppCompatActivity {
         Log.d("GameActivity", "GAME OVER!");
         gameOver = true;
 
-        // Longer vibrate
+        // Longer vibrate for game over
         if (vibratorFlag) {
             vibrator.vibrate(800);
         }
@@ -385,56 +397,60 @@ public class GameActivity extends AppCompatActivity {
 
     private Runnable updateUI = new Runnable() {
         public void run() {
-
             //This method runs in the same thread as the UI.
+            updateScoreLabel();
+            updateBlocksImages();
+        }
+    };
 
-            // Change score
-            if (scoreChangedFlag) {
-                scoreChangedFlag = false;
-                panel_TXT_score.setText("Score: " + score);
-            }
+    private void updateBlocksImages() {
+        // Check every cell in matrix and update picture
+        for (int i = 0; i < ROWS; i++) {
+            for (int j = 0; j < COLS; j++) {
 
-            // Check every cell in matrix and update picture
-            for (int i = 0; i < ROWS; i++) {
-                for (int j = 0; j < COLS; j++) {
+                switch (cells[i][j]) {
+                    case EMPTY:
+                        panel_IMG_matrix[i][j].setImageResource(0);
+                        break;
+                    case PLAYER:
+                        panel_IMG_matrix[i][j].setImageResource(R.drawable.img_squid);
+                        break;
+                    case CIRCLE:
+                        panel_IMG_matrix[i][j].setImageResource(R.drawable.img_circle);
+                        break;
+                    case TRIANGLE:
+                        panel_IMG_matrix[i][j].setImageResource(R.drawable.img_triangle);
+                        break;
+                    case STAR:
+                        panel_IMG_matrix[i][j].setImageResource(R.drawable.img_star);
+                        break;
+                    case UMBRELLA:
+                        panel_IMG_matrix[i][j].setImageResource(R.drawable.img_umbrella);
+                        break;
+                    case COIN_01:
+                        panel_IMG_matrix[i][j].setImageResource(R.drawable.img_coin_01);
+                        break;
+                    case COIN_05:
+                        panel_IMG_matrix[i][j].setImageResource(R.drawable.img_coin_05);
+                        break;
+                    case COIN_10:
+                        panel_IMG_matrix[i][j].setImageResource(R.drawable.img_coin_10);
+                        break;
 
-                    switch (cells[i][j]) {
-                        case EMPTY:
-                            panel_IMG_matrix[i][j].setImageResource(0);
-                            break;
-                        case PLAYER:
-                            panel_IMG_matrix[i][j].setImageResource(R.drawable.img_squid);
-                            break;
-                        case CIRCLE:
-                            panel_IMG_matrix[i][j].setImageResource(R.drawable.img_circle);
-                            break;
-                        case TRIANGLE:
-                            panel_IMG_matrix[i][j].setImageResource(R.drawable.img_triangle);
-                            break;
-                        case STAR:
-                            panel_IMG_matrix[i][j].setImageResource(R.drawable.img_star);
-                            break;
-                        case UMBRELLA:
-                            panel_IMG_matrix[i][j].setImageResource(R.drawable.img_umbrella);
-                            break;
-                        case COIN_01:
-                            panel_IMG_matrix[i][j].setImageResource(R.drawable.img_coin_01);
-                            break;
-                        case COIN_05:
-                            panel_IMG_matrix[i][j].setImageResource(R.drawable.img_coin_05);
-                            break;
-                        case COIN_10:
-                            panel_IMG_matrix[i][j].setImageResource(R.drawable.img_coin_10);
-                            break;
-
-                        default:
-                            Log.d("d", "default: cell " + i + "," + j);
-                            break;
-                    }
+                    default:
+                        Log.d("GameActivity", "updateUI() - default: cell " + i + "," + j);
+                        break;
                 }
             }
         }
-    };
+    }
+
+    private void updateScoreLabel() {
+        if (!gameOver && scoreChangedFlag) {
+            scoreChangedFlag = false;
+            panel_TXT_score.setText("Score: " + score);
+        }
+    }
 
     private void findViews() {
 

@@ -17,16 +17,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.myapplication.objects.MyDatabase;
-import com.example.myapplication.objects.Record;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -52,9 +48,6 @@ public class MainActivity extends AppCompatActivity implements SettingsDialog.Se
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Long time1 = System.currentTimeMillis();
-        Log.d("TIME", "time1: " + time1);
-
         findViews();
         setButtonListeners();
 
@@ -68,15 +61,6 @@ public class MainActivity extends AppCompatActivity implements SettingsDialog.Se
         } else {
             ActivityCompat.requestPermissions(MainActivity.this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
-        }
-
-        Long time2 = System.currentTimeMillis();
-        Log.d("TIME", "time2: " + time2);
-
-        if (time1 > time2) {
-            Log.d("TIME", "time1 > time2");
-        } else {
-            Log.d("TIME", "time2 > time1");
         }
     }
 

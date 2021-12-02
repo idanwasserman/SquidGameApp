@@ -25,7 +25,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements SettingsDialog.SettingsDialogListener {
+public class MainActivity extends AppCompatActivity
+        implements SettingsDialog.SettingsDialogListener {
 
     private Button main_BTN_play;
     private Button main_BTN_topTen;

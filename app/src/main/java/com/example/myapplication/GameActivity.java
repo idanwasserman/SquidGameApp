@@ -57,11 +57,12 @@ public class GameActivity extends AppCompatActivity {
                 panel_BTN_right,
                 panel_IMG_matrix,
                 panel_ICN_hearts,
-                panel_TXT_score);
+                panel_TXT_score,
+                vibratorFlag);
         GameModel gameModel = new GameModel(
                 lat,
                 lng);
-        gameController = new GameController(gameView, gameModel, sensorsFlag, vibratorFlag);
+        gameController = new GameController(gameView, gameModel, sensorsFlag);
     }
 
     @Override

@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class GameView {
 
+    private static final int VIBRATION_TIME = 750;
     // CONSTANTS
     private final int EMPTY = 0;
     private final int PLAYER = 1;
@@ -40,6 +41,7 @@ public class GameView {
     private int cells[][] = new int[ROWS][COLS];
     private int score, lastPosition, playerPosition;
     private String lastScoreText = "Score: 0";
+    private boolean vibratorFlag;
 
     // Panel objects
     private ImageButton panel_BTN_left;
@@ -57,13 +59,19 @@ public class GameView {
             ImageButton panel_BTN_right,
             ImageView[][] panel_IMG_matrix,
             ImageView[] panel_ICN_hearts,
-            TextView panel_TXT_score) {
+            TextView panel_TXT_score,
+            boolean vibratorFlag) {
         this.activity = activity;
         this.panel_BTN_left = panel_BTN_left;
         this.panel_BTN_right = panel_BTN_right;
         this.panel_IMG_matrix = panel_IMG_matrix;
         this.panel_ICN_hearts = panel_ICN_hearts;
         this.panel_TXT_score = panel_TXT_score;
+        this.vibratorFlag = vibratorFlag;
+
+        if (vibratorFlag) {
+            vibrator = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
+        }
     }
 
     public SensorManager getSensorManager() {
@@ -101,6 +109,7 @@ public class GameView {
 
     public void removeHeart(int collisionsCounter) {
         panel_ICN_hearts[collisionsCounter - 1].setVisibility(View.INVISIBLE);
+        vibrator.vibrate(VIBRATION_TIME);
     }
 
     public void updatePlayerPosition(int lastPosition, int playerPosition) {

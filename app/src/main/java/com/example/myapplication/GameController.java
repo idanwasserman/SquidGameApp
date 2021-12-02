@@ -22,7 +22,7 @@ public class GameController {
     //
     private boolean sensorsFlag;
 
-    public GameController(GameView theView, GameModel theModel, boolean sensorsFlag, boolean vibratorFlag) {
+    public GameController(GameView theView, GameModel theModel, boolean sensorsFlag) {
         gameHandler = new Handler();
         this.theView = theView;
         this.theModel = theModel;
@@ -30,7 +30,9 @@ public class GameController {
 
         if (sensorsFlag) {
             theView.initSensors();
-            theView.concealButtons();
+//            theView.concealButtons();
+            // TODO: delete line below, uncomment line above, implement moving by sensors
+            theView.addButtonsListeners(leftButtonListener, rightButtonListener);
         } else {
             theView.addButtonsListeners(leftButtonListener, rightButtonListener);
         }

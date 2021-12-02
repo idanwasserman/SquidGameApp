@@ -1,3 +1,4 @@
+/*
 package com.example.myapplication;
 
 import android.content.Intent;
@@ -67,9 +68,7 @@ public class GameManager {
     private Handler timerHandler = new Handler();
 
 
-
     private GameManager() {
-
     }
 
     public static GameManager getInstance() {
@@ -118,7 +117,6 @@ public class GameManager {
             y = (int) event.values[1];
             z = (int) event.values[2];
 
-            // TODO: Check x : if changed --> change position
 
             updatePeriodByZ(z);
         }
@@ -178,7 +176,8 @@ public class GameManager {
     // Check if player is going to collide a block
     // if not -> check if player is getting a coin and update score
     private boolean isPlayerCollide(int rows, int cols) {
-        if (cells[rows][cols] >= BLOCK && cells[rows][cols] < COINS) {
+        if (cells[rows][cols] >= BLOCK
+                        && cells[rows][cols] < COINS) {
             return true;
         } else {
             switch (cells[rows][cols]) {
@@ -425,3 +424,5 @@ public class GameManager {
     }
 
 }
+
+*/

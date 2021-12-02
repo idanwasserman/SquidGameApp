@@ -13,26 +13,31 @@ import android.widget.TextView;
 
 public class GameActivity extends AppCompatActivity {
 
+    // Sensors and vibrator
     private static Vibrator vibrator;
     private static Sensor accSensor;
     private static SensorManager sensorManager;
 
     // Panel objects
-    private static ImageButton panel_BTN_left;
-    private static ImageButton panel_BTN_right;
-    private static ImageView[][] panel_IMG_matrix;
-    private static ImageView[] panel_ICN_hearts;
-    private static TextView panel_TXT_score;
+    private ImageButton panel_BTN_left;
+    private ImageButton panel_BTN_right;
+    private ImageView[][] panel_IMG_matrix;
+    private ImageView[] panel_ICN_hearts;
+    private TextView panel_TXT_score;
 
     // Bundle objects
     private static Bundle bundle;
-    private static boolean vibratorFlag;
-    private static double lat = 0;
-    private static double lng = 0;
+    private boolean vibratorFlag, sensorsFlag;
+    private double lat = 0, lng = 0;
 
+    // Constants
     public static final String LAT = "LAT";
     public static final String LNG = "LNG";
     public static final String VIBRATOR_FLAG = "VIBRATOR_FLAG";
+    public static final String SENSORS_FLAG = "SENSORS_FLAG";
+
+    // Game Controller
+    private GameController gameController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,26 +50,36 @@ public class GameActivity extends AppCompatActivity {
         initSensor();
 
         unpackBundle();
-    }
 
+        GameView gameView = new GameView(
+                this,
+                panel_BTN_left,
+                panel_BTN_right,
+                panel_IMG_matrix,
+                panel_ICN_hearts,
+                panel_TXT_score);
+        GameModel gameModel = new GameModel(
+                lat,
+                lng);
+        gameController = new GameController(gameView, gameModel, sensorsFlag, vibratorFlag);
+    }
 
     @Override
     protected void onStart() {
         super.onStart();
-        GameManager.getInstance().setActivity(this);
-        GameManager.getInstance().initGame();
+        gameController.initGame();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        GameManager.getInstance().startGame();
+        gameController.startGame();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        GameManager.getInstance().stopGame();
+        gameController.stopGame();
     }
 
     @Override
@@ -76,6 +91,18 @@ public class GameActivity extends AppCompatActivity {
     private void initSensor() {
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         accSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+    }
+
+    public static Bundle getBundle() {
+        return bundle;
+    }
+
+    private void unpackBundle() {
+        bundle = getIntent().getBundleExtra(MainActivity.BUNDLE);
+        sensorsFlag = bundle.getBoolean(SENSORS_FLAG);
+        vibratorFlag = bundle.getBoolean(VIBRATOR_FLAG);
+        lat = bundle.getDouble(LAT);
+        lng = bundle.getDouble(LNG);
     }
 
     private void findViews() {
@@ -145,58 +172,4 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-    public static ImageButton getPanel_BTN_left() {
-        return panel_BTN_left;
-    }
-
-    public static ImageButton getPanel_BTN_right() {
-        return panel_BTN_right;
-    }
-
-    public static Vibrator getVibrator() {
-        return vibrator;
-    }
-
-    public static boolean isVibratorFlag() {
-        return vibratorFlag;
-    }
-
-    public static ImageView[][] getPanel_IMG_matrix() {
-        return panel_IMG_matrix;
-    }
-
-    public static ImageView[] getPanel_ICN_hearts() {
-        return panel_ICN_hearts;
-    }
-
-    public static TextView getPanel_TXT_score() {
-        return panel_TXT_score;
-    }
-
-    public static double getLat() {
-        return lat;
-    }
-
-    public static double getLng() {
-        return lng;
-    }
-
-    public static Bundle getBundle() {
-        return bundle;
-    }
-
-    public static Sensor getAccSensor() {
-        return accSensor;
-    }
-
-    public static SensorManager getSensorManager() {
-        return sensorManager;
-    }
-
-    private void unpackBundle() {
-        bundle = getIntent().getBundleExtra(MainActivity.BUNDLE);
-        vibratorFlag = bundle.getBoolean(VIBRATOR_FLAG);
-        lat = bundle.getDouble(LAT);
-        lng = bundle.getDouble(LNG);
-    }
 }

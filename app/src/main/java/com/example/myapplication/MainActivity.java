@@ -13,7 +13,6 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -32,16 +31,16 @@ public class MainActivity extends AppCompatActivity implements SettingsDialog.Se
     private Button main_BTN_topTen;
     private Button main_BTN_settings;
 
-    private boolean sensors = false;
-    private boolean sounds = false;
-    private boolean vibrator = false;
+    private boolean sensorsFlag = false;
+    private boolean soundsFlag = false;
+    private boolean vibratorFlag = false;
 
     private FusedLocationProviderClient fusedLocationProviderClient;
-    private MediaPlayer player;
+    private MediaPlayer mediaPlayer;
     private double lat, lng;
 
     public static final String BUNDLE = "BUNDLE";
-
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,50 +67,36 @@ public class MainActivity extends AppCompatActivity implements SettingsDialog.Se
     protected void onDestroy() {
         super.onDestroy();
 
-        if (player != null) {
-            player.stop();
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
         }
         finish();
     }
 
-    private View.OnClickListener playBtnListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            openActivity(GameActivity.class);
-        }
-    };
+    private View.OnClickListener playBtnListener = v -> openActivity(GameActivity.class);
 
-    private View.OnClickListener topTenBtnListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            openActivity(TopTenActivity.class);
-        }
-    };
+    private View.OnClickListener topTenBtnListener = v -> openActivity(TopTenActivity.class);
 
-    private View.OnClickListener settingsBtnListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            openSettingsDialog();
-        }
-    };
+    private View.OnClickListener settingsBtnListener = v -> openSettingsDialog();
 
     private void openSettingsDialog() {
-        SettingsDialog settingsDialog = new SettingsDialog(sensors, sounds, vibrator);
+        SettingsDialog settingsDialog = new SettingsDialog(sensorsFlag, soundsFlag, vibratorFlag);
         settingsDialog.show(getSupportFragmentManager(), "settings dialog");
     }
 
     private void openActivity(Class c) {
         Intent intent = new Intent(getApplicationContext(), c);
+        packBundle();
+        intent.putExtra(BUNDLE, bundle); // Add bundle to intent
+        startActivity(intent);
+    }
 
-        // Pack bundle
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(GameActivity.VIBRATOR_FLAG, vibrator);
+    private void packBundle() {
+        bundle = new Bundle();
+        bundle.putBoolean(GameActivity.VIBRATOR_FLAG, vibratorFlag);
+        bundle.putBoolean(GameActivity.SENSORS_FLAG, sensorsFlag);
         bundle.putDouble(GameActivity.LAT, lat);
         bundle.putDouble(GameActivity.LNG, lng);
-
-        // Add bundle to intent
-        intent.putExtra(BUNDLE, bundle);
-        startActivity(intent);
     }
 
     private void setButtonListeners() {
@@ -128,9 +113,9 @@ public class MainActivity extends AppCompatActivity implements SettingsDialog.Se
 
     @Override
     public void applySettings(boolean sensors, boolean sounds, boolean vibrator) {
-        this.sensors = sensors;
-        this.sounds = sounds;
-        this.vibrator = vibrator;
+        this.sensorsFlag = sensors;
+        this.soundsFlag = sounds;
+        this.vibratorFlag = vibrator;
 
         if (sounds) {
             play();
@@ -140,9 +125,9 @@ public class MainActivity extends AppCompatActivity implements SettingsDialog.Se
     }
 
     public void play() {
-        if (player == null) {
-            player = MediaPlayer.create(this, R.raw.squid_game_song_remix);
-            player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+        if (mediaPlayer == null) {
+            mediaPlayer = MediaPlayer.create(this, R.raw.squid_game_song_remix);
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     play();
@@ -150,12 +135,12 @@ public class MainActivity extends AppCompatActivity implements SettingsDialog.Se
             });
         }
 
-        player.start();
+        mediaPlayer.start();
     }
 
     public void pause() {
-        if (player != null) {
-            player.pause();
+        if (mediaPlayer != null) {
+            mediaPlayer.pause();
         }
     }
 

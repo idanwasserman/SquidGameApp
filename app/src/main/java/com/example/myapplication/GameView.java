@@ -109,7 +109,9 @@ public class GameView {
 
     public void removeHeart(int collisionsCounter) {
         panel_ICN_hearts[collisionsCounter - 1].setVisibility(View.INVISIBLE);
-        vibrator.vibrate(VIBRATION_TIME);
+        if (vibratorFlag) {
+            vibrator.vibrate(VIBRATION_TIME);
+        }
     }
 
     public void updatePlayerPosition(int lastPosition, int playerPosition) {

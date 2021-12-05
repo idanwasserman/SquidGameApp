@@ -55,9 +55,11 @@ public class GameModel {
     private final String MY_DB_NAME = "SQUID_GAME_DB";
     private final String defDbVal = "{\"records\":[]}";
 
+    private String nickname;
     private double lat, lng;
 
-    public GameModel(double lat, double lng) {
+    public GameModel(String nickname, double lat, double lng) {
+        this.nickname = nickname;
         this.lat = lat;
         this.lng = lng;
     }
@@ -178,11 +180,12 @@ public class GameModel {
         // Create a record and store it in my_db
         Record record = new Record()
                 .setDate(new Date())
+                .setNickname(nickname)
                 .setLat(lat)
                 .setLng(lng)
                 .setScore(score);
 
-//        cleanRecordsBelowOneThousandScore(my_db);
+        cleanRecordsBelowOneThousandScore(my_db);
         my_db.getRecords().add(record);
 
         // Store my_db in app shared preferences

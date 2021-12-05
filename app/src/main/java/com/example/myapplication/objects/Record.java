@@ -4,12 +4,22 @@ import java.util.Date;
 
 public class Record {
 
+    private String nickname;
     private int score;
     private double lat;
     private double lng;
     private Date date;
 
     public Record() {
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public Record setNickname(String nickname) {
+        this.nickname = nickname;
+        return this;
     }
 
     public int getScore() {
@@ -50,7 +60,9 @@ public class Record {
 
     @Override
     public String toString() {
-        return score + " pts, " + date.getDay() + "/" + date.getMonth();
+        if (nickname == null)
+            return score + " pts, " + date.getDay() + "/" + date.getMonth();
+        return nickname + ": "  + score + " pts, " + date.getDay() + "/" + date.getMonth();
     }
 
 }

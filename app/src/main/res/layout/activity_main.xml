@@ -1,42 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:keepScreenOn="true">
+    android:keepScreenOn="true"
+    >
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_menu"
+        android:background="@drawable/squid_game_app_bg" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/bottom_menu"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="#9408608F"
+        android:gravity="center"
         android:orientation="vertical"
-        android:background="@color/black"
-        android:layout_centerInParent="true"
-        android:padding="25dp"
+        android:padding="16dp"
         >
 
         <Button
             android:id="@+id/main_BTN_play"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="@string/play"
-            />
+            android:text="@string/play" />
 
         <Button
             android:id="@+id/main_BTN_topTen"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="@string/top_ten"
-            />
+            android:text="@string/top_ten" />
 
         <Button
             android:id="@+id/main_BTN_settings"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="@string/settings"
-            />
+            android:text="@string/settings" />
 
     </LinearLayout>
+
 
 </RelativeLayout>

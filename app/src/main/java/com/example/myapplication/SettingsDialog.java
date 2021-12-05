@@ -16,20 +16,17 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 
 public class SettingsDialog extends AppCompatDialogFragment {
 
-    private SwitchMaterial settings_SWITCH_sensors;
     private SwitchMaterial settings_SWITCH_sounds;
-    private SwitchMaterial settings_SWITCH_vibrator;
+    private SwitchMaterial settings_SWITCH_vibrations;
 
     private SettingsDialogListener settingsDialogListener;
 
-    private boolean sensors = false;
     private boolean sounds = false;
-    private boolean vibrator = false;
+    private boolean vibrations = true;
 
-    SettingsDialog(boolean sensors, boolean sounds, boolean vibrator) {
-        this.sensors = sensors;
+    SettingsDialog(boolean sounds, boolean vibrator) {
         this.sounds = sounds;
-        this.vibrator = vibrator;
+        this.vibrations = vibrator;
     }
 
     @NonNull
@@ -39,9 +36,10 @@ public class SettingsDialog extends AppCompatDialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.layout_settings_dialog, null);
         findViews(view);
-        settings_SWITCH_sensors.setChecked(sensors);
+
         settings_SWITCH_sounds.setChecked(sounds);
-        settings_SWITCH_vibrator.setChecked(vibrator);
+        settings_SWITCH_vibrations.setChecked(vibrations);
+
         builder
                 .setView(view)
                 .setTitle(R.string.settings)
@@ -53,9 +51,8 @@ public class SettingsDialog extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         settingsDialogListener.applySettings(
-                                settings_SWITCH_sensors.isChecked(),
                                 settings_SWITCH_sounds.isChecked(),
-                                settings_SWITCH_vibrator.isChecked());
+                                settings_SWITCH_vibrations.isChecked());
                     }
                 });
 
@@ -77,12 +74,11 @@ public class SettingsDialog extends AppCompatDialogFragment {
     }
 
     public interface SettingsDialogListener {
-        void applySettings(boolean sensors, boolean sounds, boolean vibrator);
+        void applySettings(boolean sounds, boolean vibrations);
     }
 
     private void findViews(View view) {
-        settings_SWITCH_sensors = view.findViewById(R.id.settings_SWITCH_sensors);
         settings_SWITCH_sounds = view.findViewById(R.id.settings_SWITCH_sounds);
-        settings_SWITCH_vibrator = view.findViewById(R.id.settings_SWITCH_vibrator);
+        settings_SWITCH_vibrations = view.findViewById(R.id.settings_SWITCH_vibrations);
     }
 }

@@ -27,12 +27,14 @@ public class GameActivity extends AppCompatActivity {
 
     // Bundle objects
     private static Bundle bundle;
+    private String nickname = "";
     private boolean vibratorFlag, sensorsFlag;
     private double lat = 0, lng = 0;
 
     // Constants
     public static final String LAT = "LAT";
     public static final String LNG = "LNG";
+    public static final String NICKNAME = "NICKNAME";
     public static final String VIBRATOR_FLAG = "VIBRATOR_FLAG";
     public static final String SENSORS_FLAG = "SENSORS_FLAG";
 
@@ -60,6 +62,7 @@ public class GameActivity extends AppCompatActivity {
                 panel_TXT_score,
                 vibratorFlag);
         GameModel gameModel = new GameModel(
+                nickname,
                 lat,
                 lng);
         gameController = new GameController(gameView, gameModel, sensorsFlag);
@@ -100,6 +103,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void unpackBundle() {
         bundle = getIntent().getBundleExtra(MainActivity.BUNDLE);
+        nickname = bundle.getString(NICKNAME);
         sensorsFlag = bundle.getBoolean(SENSORS_FLAG);
         vibratorFlag = bundle.getBoolean(VIBRATOR_FLAG);
         lat = bundle.getDouble(LAT);

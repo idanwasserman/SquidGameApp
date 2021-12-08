@@ -1,21 +1,25 @@
-package com.example.myapplication;
+package com.example.myapplication.gameMVC;
 
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.myapplication.objects.MySharedPreferences;
 import com.example.myapplication.objects.MyDatabase;
 import com.example.myapplication.objects.Record;
 import com.google.gson.Gson;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.Random;
 
 public class GameModel {
 
     public static final int LEFT = -1;
     public static final int RIGHT = 1;
+    private static final String PATTERN = "dd/MM/yyyy";
 
     // CONSTANTS
     private final int EMPTY = 0;
@@ -177,9 +181,11 @@ public class GameModel {
                         MyDatabase.class
                 );
 
+        DateFormat date = new SimpleDateFormat(PATTERN);
+        String dateFormat = date.format(Calendar.getInstance().getTime());
         // Create a record and store it in my_db
         Record record = new Record()
-                .setDate(new Date())
+                .setDateFormat(dateFormat)
                 .setNickname(nickname)
                 .setLat(lat)
                 .setLng(lng)

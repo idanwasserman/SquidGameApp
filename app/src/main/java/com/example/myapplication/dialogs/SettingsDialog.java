@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
+import com.example.myapplication.R;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 public class SettingsDialog extends AppCompatDialogFragment {

@@ -9,7 +9,7 @@ public class SortRecordByScore implements Comparator<Record> {
         if (o1.getScore() != o2.getScore()) {
             return o1.getScore() - o2.getScore();
         } else {
-            return o1.getDate().compareTo(o2.getDate());
+            return o1.getDateFormat().compareTo(o2.getDateFormat());
         }
     }
 }

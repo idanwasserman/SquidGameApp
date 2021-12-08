@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,11 @@ import android.os.Vibrator;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.myapplication.R;
+import com.example.myapplication.gameMVC.GameController;
+import com.example.myapplication.gameMVC.GameModel;
+import com.example.myapplication.gameMVC.GameView;
 
 public class GameActivity extends AppCompatActivity {
 

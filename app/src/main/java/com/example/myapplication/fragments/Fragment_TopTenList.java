@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +11,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.example.myapplication.interfaces.CallBack_List;
+import com.example.myapplication.objects.MySharedPreferences;
+import com.example.myapplication.R;
 import com.example.myapplication.objects.MyDatabase;
 import com.example.myapplication.objects.Record;
 import com.example.myapplication.objects.SortRecordByScore;

@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +17,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.myapplication.R;
+import com.example.myapplication.dialogs.PlayGameDialog;
+import com.example.myapplication.dialogs.SettingsDialog;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -78,7 +81,7 @@ public class MainActivity extends AppCompatActivity
         finish();
     }
 
-    private View.OnClickListener playBtnListener = v -> openPlayGameDialog();//
+    private View.OnClickListener playBtnListener = v -> openPlayGameDialog();
 
     private View.OnClickListener topTenBtnListener = v -> openActivity(TopTenActivity.class);
 

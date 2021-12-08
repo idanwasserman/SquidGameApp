@@ -1,13 +1,15 @@
-package com.example.myapplication;
+package com.example.myapplication.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.myapplication.objects.Record;
+import com.example.myapplication.interfaces.CallBack_List;
+import com.example.myapplication.R;
+import com.example.myapplication.fragments.Fragment_Map;
+import com.example.myapplication.fragments.Fragment_TopTenList;
 import com.google.android.gms.maps.model.LatLng;
 
 public class TopTenActivity extends AppCompatActivity {
@@ -16,9 +18,6 @@ public class TopTenActivity extends AppCompatActivity {
 
     private Fragment_TopTenList fragment_topTenList;
     private Fragment_Map fragment_map;
-
-//    private static final String LAT = "LAT";
-//    private static final String LNG = "LNG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

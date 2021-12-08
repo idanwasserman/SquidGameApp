@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.gameMVC;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.myapplication.activities.GameActivity;
+import com.example.myapplication.activities.MainActivity;
+import com.example.myapplication.R;
 
 public class GameView {
 

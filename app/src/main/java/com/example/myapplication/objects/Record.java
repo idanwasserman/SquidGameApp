@@ -1,14 +1,12 @@
 package com.example.myapplication.objects;
 
-import java.util.Date;
-
 public class Record {
 
     private String nickname;
     private int score;
     private double lat;
     private double lng;
-    private Date date;
+    private String dateFormat;
 
     public Record() {
     }
@@ -49,20 +47,20 @@ public class Record {
         return this;
     }
 
-    public Date getDate() {
-        return date;
+    public String getDateFormat() {
+        return dateFormat;
     }
 
-    public Record setDate(Date date) {
-        this.date = date;
+    public Record setDateFormat(String dateFormat) {
+        this.dateFormat = dateFormat;
         return this;
     }
 
     @Override
     public String toString() {
         if (nickname == null)
-            return score + " pts, " + date.getDay() + "/" + date.getMonth();
-        return nickname + ": "  + score + " pts, " + date.getDay() + "/" + date.getMonth();
+            return score + " pts\n" + dateFormat;
+        return nickname + ": "  + score + " pts\n" + dateFormat;
     }
 
 }

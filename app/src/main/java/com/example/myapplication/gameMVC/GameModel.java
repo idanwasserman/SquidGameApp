@@ -21,17 +21,17 @@ public class GameModel {
 
     private int playerPosition = Constants.COLS / 2;
     private int collisionsCounter = 0;
-    private int cells[][] = new int[Constants.ROWS][Constants.COLS];
+    private final int[][] cells = new int[Constants.ROWS][Constants.COLS];
     private int counter = 0;
     private boolean gameOver = false;
     private int score = 0;
     private int lastZ = 0;
 
-    private String nickname;
-    private double lat, lng;
-    private boolean sensorsMode;
+    private final String nickname;
+    private final double lat, lng;
+    private final boolean sensorsMode;
 
-    public GameModel(String nickname, double lat, double lng, boolean sensorsMode) {
+    public GameModel(final String nickname, final double lat, final double lng, final boolean sensorsMode) {
         this.nickname = nickname;
         this.lat = lat;
         this.lng = lng;
@@ -176,7 +176,6 @@ public class GameModel {
     }
 
     private void cleanRecordsBelowOneThousandScore(@NonNull MyDatabase my_db) {
-        ArrayList<Record> top3 = new ArrayList<>();
         ArrayList<Record> newRecords = new ArrayList<>();
         ArrayList<Record> records = my_db.getRecords();
         for (Record r:
@@ -244,9 +243,7 @@ public class GameModel {
 
     private void moveBlocksOneRowDown() {
         for (int i = Constants.ROWS - 1; i > 0; i--) {
-            for (int j = 0; j < Constants.COLS; j++) {
-                cells[i][j] = cells[i - 1][j];
-            }
+            System.arraycopy(cells[i - 1], 0, cells[i], 0, Constants.COLS);
         }
     }
 
@@ -257,17 +254,12 @@ public class GameModel {
      */
     public boolean canMove(int direction) {
         if (direction == Constants.LEFT) {
-            if (playerPosition == 0) {
-                return false;
-            }
+            return playerPosition != 0;
         } else if (direction == Constants.RIGHT) {
-            if (playerPosition == Constants.COLS - 1) {
-                return false;
-            }
+            return playerPosition != Constants.COLS - 1;
         } else {
             return false;
         }
-        return true;
     }
 
     public void updatePeriodByZ(int z) {

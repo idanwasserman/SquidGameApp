@@ -163,7 +163,7 @@ public class GameModel {
                 .setSensorsMode(sensorsMode)
                 .setScore(score);
 
-        cleanRecordsBelowOneThousandScore(my_db);
+//        cleanRecordsBelowScore(my_db);
         my_db.getRecords().add(record);
 
         // Store my_db in app shared preferences
@@ -176,12 +176,13 @@ public class GameModel {
                 );
     }
 
-    private void cleanRecordsBelowOneThousandScore(@NonNull MyDatabase my_db) {
+    private void cleanRecordsBelowScore(@NonNull MyDatabase my_db) {
+        int minScore = 1000;
         ArrayList<Record> newRecords = new ArrayList<>();
         ArrayList<Record> records = my_db.getRecords();
         for (Record r:
              records) {
-            if (r.getScore() >= 400) {
+            if (r.getScore() > minScore) {
                 newRecords.add(r);
             }
         }

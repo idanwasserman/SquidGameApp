@@ -21,8 +21,7 @@ public class Fragment_Map extends Fragment {
     private GoogleMap mMap;
     private MarkerOptions markerOptions;
     private final int ZOOM = 15;
-    private final LatLng collegeLocation = new LatLng(32.115139,34.817804);
-    private boolean isMapReady = false;
+    private LatLng defaultLocation = new LatLng(32.115139,34.817804);
 
     @Nullable
     @Override
@@ -36,14 +35,13 @@ public class Fragment_Map extends Fragment {
         assert supportMapFragment != null;
         supportMapFragment.getMapAsync(googleMap -> {
             mMap = googleMap;
-            isMapReady = true;
 
             // Set map to zoom on college location at first
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(collegeLocation, ZOOM));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, ZOOM));
 
             // Initialize marker options
             markerOptions = new MarkerOptions();
-            markerOptions.position(collegeLocation);
+            markerOptions.position(defaultLocation);
             // Add marker on map
             mMap.clear();
             mMap.addMarker(markerOptions);
@@ -60,4 +58,12 @@ public class Fragment_Map extends Fragment {
         mMap.addMarker(markerOptions);
     }
 
+    public LatLng getDefaultLocation() {
+        return defaultLocation;
+    }
+
+    public Fragment_Map setDefaultLocation(LatLng defaultLocation) {
+        this.defaultLocation = defaultLocation;
+        return this;
+    }
 }

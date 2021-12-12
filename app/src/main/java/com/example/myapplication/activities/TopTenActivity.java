@@ -42,6 +42,7 @@ public class TopTenActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getBundleExtra(Constants.BUNDLE);
         double lat = bundle.getDouble(GameActivity.LAT);
         double lng = bundle.getDouble(GameActivity.LNG);
+        fragment_map.setDefaultLocation(new LatLng(lat, lng));
     }
 
     @Override

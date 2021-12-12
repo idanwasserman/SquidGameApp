@@ -64,14 +64,14 @@ public class GameController {
     private final View.OnClickListener leftButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            movePlayer(theModel.LEFT);
+            movePlayer(Constants.LEFT);
         }
     };
 
     private final View.OnClickListener rightButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            movePlayer(theModel.RIGHT);
+            movePlayer(Constants.RIGHT);
         }
     };
 
@@ -88,9 +88,9 @@ public class GameController {
             if (currEventTimestamp - prevEventTimestamp > DELAY) {
                 prevEventTimestamp = currEventTimestamp;
                 if (x >= TURN_ANGLE) {
-                    movePlayer(theModel.LEFT);
+                    movePlayer(Constants.LEFT);
                 } else if (x <= -TURN_ANGLE) {
-                    movePlayer(theModel.RIGHT);
+                    movePlayer(Constants.RIGHT);
                 }
             }
         }

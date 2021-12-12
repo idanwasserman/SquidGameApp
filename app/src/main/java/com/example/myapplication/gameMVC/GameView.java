@@ -20,30 +20,13 @@ import com.example.myapplication.R;
 
 public class GameView {
 
-    private static final int VIBRATION_TIME = 750;
-    // CONSTANTS
-    private final int EMPTY = 0;
-    private final int PLAYER = 1;
-    private final int BLOCK = 2;
-    private final int CIRCLE = 3;
-    private final int TRIANGLE = 4;
-    private final int STAR = 5;
-    private final int SQUARE = 6;
-    private final int COINS = 7;
-    private final int COIN_01 = 8;
-    private final int COIN_05 = 9;
-    private final int COIN_10 = 10;
-
-    private final int ROWS = 7;
-    private final int COLS = 5;
-
     private Vibrator vibrator;
     private Sensor accSensor;
     private SensorManager sensorManager;
     private MediaPlayer crashSound;
 
     // Helping variables
-    private int cells[][] = new int[ROWS][COLS];
+    private int cells[][] = new int[Constants.ROWS][Constants.COLS];
     private int score, lastPosition, playerPosition;
     private String lastScoreText = "Score: 0";
     private boolean vibratorFlag;
@@ -115,7 +98,7 @@ public class GameView {
     public void removeHeart(int collisionsCounter) {
         panel_ICN_hearts[collisionsCounter - 1].setVisibility(View.INVISIBLE);
         if (vibratorFlag) {
-            vibrator.vibrate(VIBRATION_TIME);
+            vibrator.vibrate(Constants.VIBRATION_TIME);
         }
         playCrashSound();
     }
@@ -134,52 +117,52 @@ public class GameView {
 
     private Runnable updatePlayerPosition = new Runnable() {
         public void run() {
-            panel_IMG_matrix[ROWS - 1][lastPosition]
+            panel_IMG_matrix[Constants.ROWS - 1][lastPosition]
                     .setImageResource(0);
-            panel_IMG_matrix[ROWS - 1][playerPosition]
+            panel_IMG_matrix[Constants.ROWS - 1][playerPosition]
                     .setImageResource(R.drawable.img_squid);
         }
     };
 
     private void updateBlocksImages() {
         // Check every cell in matrix and update picture
-        for (int i = 0; i < ROWS; i++) {
-            for (int j = 0; j < COLS; j++) {
+        for (int i = 0; i < Constants.ROWS; i++) {
+            for (int j = 0; j < Constants.COLS; j++) {
 
                 switch (cells[i][j]) {
-                    case EMPTY:
+                    case Constants.EMPTY:
                         panel_IMG_matrix[i][j]
                                 .setImageResource(0);
                         break;
-                    case PLAYER:
+                    case Constants.PLAYER:
                         panel_IMG_matrix[i][j]
                                 .setImageResource(R.drawable.img_squid);
                         break;
-                    case CIRCLE:
+                    case Constants.CIRCLE:
                         panel_IMG_matrix[i][j]
                                 .setImageResource(R.drawable.img_circle);
                         break;
-                    case TRIANGLE:
+                    case Constants.TRIANGLE:
                         panel_IMG_matrix[i][j]
                                 .setImageResource(R.drawable.img_triangle);
                         break;
-                    case STAR:
+                    case Constants.STAR:
                         panel_IMG_matrix[i][j]
                                 .setImageResource(R.drawable.img_star);
                         break;
-                    case SQUARE:
+                    case Constants.SQUARE:
                         panel_IMG_matrix[i][j]
                                 .setImageResource(R.drawable.img_square);
                         break;
-                    case COIN_01:
+                    case Constants.COIN_01:
                         panel_IMG_matrix[i][j]
                                 .setImageResource(R.drawable.img_coin_01);
                         break;
-                    case COIN_05:
+                    case Constants.COIN_05:
                         panel_IMG_matrix[i][j]
                                 .setImageResource(R.drawable.img_coin_05);
                         break;
-                    case COIN_10:
+                    case Constants.COIN_10:
                         panel_IMG_matrix[i][j]
                                 .setImageResource(R.drawable.img_coin_10);
                         break;

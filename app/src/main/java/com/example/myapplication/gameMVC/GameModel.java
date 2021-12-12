@@ -17,47 +17,15 @@ import java.util.Random;
 
 public class GameModel {
 
-    public static final int LEFT = -1;
-    public static final int RIGHT = 1;
-    private static final String PATTERN = "dd/MM/yyyy";
+    private int period = Constants.MAX_PERIOD;
 
-    // CONSTANTS
-    private final int EMPTY = 0;
-    private final int PLAYER = 1;
-    private final int BLOCK = 2;
-    private final int CIRCLE = 3;
-    private final int TRIANGLE = 4;
-    private final int STAR = 5;
-    private final int SQUARE = 6;
-    private final int COINS = 7;
-    private final int COIN_01 = 8;
-    private final int COIN_05 = 9;
-    private final int COIN_10 = 10;
-
-    private final int NUM_OF_BLOCKS = 4;
-    private final int NUM_OF_COINS = 3;
-    private final int COIN_CHANCE = 3;
-    private final int NUM_OF_LIVES = 3;
-    private final int ROWS = 7;
-    private final int COLS = 5;
-
-    private final int MIN_PERIOD = 300;
-    private final int MAX_PERIOD = 1070;
-    private final int Z_SPACES = 11;
-    private final int Z_AVG_CHANGE = (MAX_PERIOD - MIN_PERIOD) / Z_SPACES;
-    private int period = MAX_PERIOD;
-
-    private int playerPosition = COLS / 2;
+    private int playerPosition = Constants.COLS / 2;
     private int collisionsCounter = 0;
-    private int cells[][] = new int[ROWS][COLS];
+    private int cells[][] = new int[Constants.ROWS][Constants.COLS];
     private int counter = 0;
     private boolean gameOver = false;
     private int score = 0;
     private int lastZ = 0;
-
-
-    private final String MY_DB_NAME = "SQUID_GAME_DB";
-    private final String defDbVal = "{\"records\":[]}";
 
     private String nickname;
     private double lat, lng;
@@ -96,14 +64,14 @@ public class GameModel {
 
     public void initGame() {
         // init cells of matrix to be EMPTY
-        for (int i = 0; i < ROWS; i++) {
-            for (int j = 0; j < COLS; j++) {
-                cells[i][j] = EMPTY;
+        for (int i = 0; i < Constants.ROWS; i++) {
+            for (int j = 0; j < Constants.COLS; j++) {
+                cells[i][j] = Constants.EMPTY;
             }
         }
 
         // Player's starting position cell
-        cells[ROWS - 1][playerPosition] = PLAYER;
+        cells[Constants.ROWS - 1][playerPosition] = Constants.PLAYER;
     }
 
     /**
@@ -116,7 +84,7 @@ public class GameModel {
     public boolean movePlayer(int direction) {
         playerPosition += direction;
 
-        if (isPlayerCollide(ROWS - 1, playerPosition)) {
+        if (isPlayerCollide(Constants.ROWS - 1, playerPosition)) {
             handlePlayerCollision();
             return true;
         }
@@ -127,7 +95,7 @@ public class GameModel {
         collisionsCounter++;
         Log.d("GameModel", "Collision #" + collisionsCounter);
 
-        if (collisionsCounter >= NUM_OF_LIVES) {
+        if (collisionsCounter >= Constants.NUM_OF_LIVES) {
             finishGame();
         }
     }
@@ -149,18 +117,18 @@ public class GameModel {
      * and updates score
      */
     private boolean isPlayerCollide(int row, int col) {
-        if (cells[row][col] >= BLOCK
-                && cells[row][col] < COINS) {
+        if (cells[row][col] >= Constants.BLOCK
+                && cells[row][col] < Constants.COINS) {
             return true;
         } else {
             switch (cells[row][col]) {
-                case COIN_01:
+                case Constants.COIN_01:
                     score += 1;
                     break;
-                case COIN_05:
+                case Constants.COIN_05:
                     score += 5;
                     break;
-                case COIN_10:
+                case Constants.COIN_10:
                     score += 10;
                     break;
             }
@@ -173,8 +141,8 @@ public class GameModel {
         String str_db = MySharedPreferences
                 .getInstance()
                 .getString(
-                        MY_DB_NAME, // key
-                        defDbVal    // def value
+                        Constants.MY_DB_NAME, // key
+                        Constants.DEFAULT_DB_VALUE    // def value
                 );
         // Convert json to object
         MyDatabase my_db = new Gson()
@@ -183,7 +151,7 @@ public class GameModel {
                         MyDatabase.class
                 );
 
-        DateFormat date = new SimpleDateFormat(PATTERN);
+        DateFormat date = new SimpleDateFormat(Constants.PATTERN);
         String dateFormat = date.format(Calendar.getInstance().getTime());
         // Create a record and store it in my_db
         Record record = new Record()
@@ -202,7 +170,7 @@ public class GameModel {
         MySharedPreferences
                 .getInstance()
                 .putString(
-                        MY_DB_NAME,
+                        Constants.MY_DB_NAME,
                         json
                 );
     }
@@ -222,7 +190,7 @@ public class GameModel {
 
     public void timerMethod() {
         // If there is a block one cell above the player -> collision
-        if (isPlayerCollide(ROWS - 2, playerPosition)) {
+        if (isPlayerCollide(Constants.ROWS - 2, playerPosition)) {
             handlePlayerCollision();
         }
 
@@ -231,7 +199,7 @@ public class GameModel {
         addScoreIfPassedBlocks();
 
         // Player position in cells may have been overridden
-        cells[ROWS - 1][playerPosition] = PLAYER;
+        cells[Constants.ROWS - 1][playerPosition] = Constants.PLAYER;
 
         emptyFirstRow();
 
@@ -240,18 +208,18 @@ public class GameModel {
 
     private void randomNewBlock() {
         if (counter % 2 == 0 || counter % 3 == 0 || counter % 5 == 0) {
-            int randomColumn = new Random().nextInt(COLS);
-            int randomBlockImage = new Random().nextInt(NUM_OF_BLOCKS) + BLOCK + 1;
+            int randomColumn = new Random().nextInt(Constants.COLS);
+            int randomBlockImage = new Random().nextInt(Constants.NUM_OF_BLOCKS) + Constants.BLOCK + 1;
             cells[0][randomColumn] = randomBlockImage;
 
             // random if need to add a coin to the line
-            int addCoin = new Random().nextInt(COIN_CHANCE);
+            int addCoin = new Random().nextInt(Constants.COIN_CHANCE);
             if (addCoin == 0) {
-                int randomCoin = new Random().nextInt(NUM_OF_COINS) + COINS + 1;
-                int randomCoinColumn = new Random().nextInt(COLS);
+                int randomCoin = new Random().nextInt(Constants.NUM_OF_COINS) + Constants.COINS + 1;
+                int randomCoinColumn = new Random().nextInt(Constants.COLS);
                 if (randomCoinColumn == randomColumn) {
                     randomCoinColumn++;
-                    randomCoinColumn %= COLS;
+                    randomCoinColumn %= Constants.COLS;
                 }
                 cells[0][randomCoinColumn] = randomCoin;
             }
@@ -261,22 +229,22 @@ public class GameModel {
     }
 
     private void emptyFirstRow() {
-        for (int i = 0; i < COLS; i++) {
-            cells[0][i] = EMPTY;
+        for (int i = 0; i < Constants.COLS; i++) {
+            cells[0][i] = Constants.EMPTY;
         }
     }
 
     private void addScoreIfPassedBlocks() {
-        for (int i = 0; i < COLS; i++) {
-            if (cells[ROWS - 1][i] >= BLOCK) {
+        for (int i = 0; i < Constants.COLS; i++) {
+            if (cells[Constants.ROWS - 1][i] >= Constants.BLOCK) {
                 score += 10;
             }
         }
     }
 
     private void moveBlocksOneRowDown() {
-        for (int i = ROWS - 1; i > 0; i--) {
-            for (int j = 0; j < COLS; j++) {
+        for (int i = Constants.ROWS - 1; i > 0; i--) {
+            for (int j = 0; j < Constants.COLS; j++) {
                 cells[i][j] = cells[i - 1][j];
             }
         }
@@ -288,12 +256,12 @@ public class GameModel {
      * @return true if player can move
      */
     public boolean canMove(int direction) {
-        if (direction == LEFT) {
+        if (direction == Constants.LEFT) {
             if (playerPosition == 0) {
                 return false;
             }
-        } else if (direction == RIGHT) {
-            if (playerPosition == COLS - 1) {
+        } else if (direction == Constants.RIGHT) {
+            if (playerPosition == Constants.COLS - 1) {
                 return false;
             }
         } else {
@@ -304,7 +272,7 @@ public class GameModel {
 
     public void updatePeriodByZ(int z) {
         if ((z >= 0 && z <= 10) && (z != lastZ)) {
-            period = MAX_PERIOD - z * Z_AVG_CHANGE;
+            period = Constants.MAX_PERIOD - z * Constants.Z_AVG_CHANGE;
             lastZ = z;
         }
     }

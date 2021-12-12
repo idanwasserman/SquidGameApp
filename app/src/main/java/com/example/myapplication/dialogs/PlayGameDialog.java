@@ -37,7 +37,7 @@ public class PlayGameDialog extends AppCompatDialogFragment {
     private AppCompatActivity activity;
 
 
-    PlayGameDialog(AppCompatActivity activity) {
+    public PlayGameDialog(AppCompatActivity activity) {
         this.activity = activity;
     }
 

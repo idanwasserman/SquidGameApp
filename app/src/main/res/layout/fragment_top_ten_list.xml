@@ -40,9 +40,11 @@
                     android:layout_weight="1"
                     android:text="1"
                     android:textColor="@color/black"
-                    android:textSize="10sp">
-
-                </Button>
+                    android:textSize="10sp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textAllCaps="false"
+                    ></Button>
 
                 <Button
                     android:id="@+id/list_TXT_2"
@@ -52,7 +54,10 @@
                     android:layout_weight="1"
                     android:text="2"
                     android:textColor="@color/black"
-                    android:textSize="10sp"></Button>
+                    android:textSize="10sp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textAllCaps="false"></Button>
 
                 <Button
                     android:id="@+id/list_TXT_3"
@@ -62,7 +67,10 @@
                     android:layout_weight="1"
                     android:text="3"
                     android:textColor="@color/black"
-                    android:textSize="10sp"></Button>
+                    android:textSize="10sp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textAllCaps="false"></Button>
 
                 <Button
                     android:id="@+id/list_TXT_4"
@@ -72,7 +80,10 @@
                     android:layout_weight="1"
                     android:text="4"
                     android:textColor="@color/black"
-                    android:textSize="10sp"></Button>
+                    android:textSize="10sp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textAllCaps="false"></Button>
 
                 <Button
                     android:id="@+id/list_TXT_5"
@@ -82,7 +93,10 @@
                     android:layout_weight="1"
                     android:text="5"
                     android:textColor="@color/black"
-                    android:textSize="10sp"></Button>
+                    android:textSize="10sp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textAllCaps="false"></Button>
 
             </LinearLayout>
 
@@ -104,7 +118,10 @@
                     android:layout_weight="1"
                     android:text="6"
                     android:textColor="@color/black"
-                    android:textSize="10sp"></Button>
+                    android:textSize="10sp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textAllCaps="false"></Button>
 
                 <Button
                     android:id="@+id/list_TXT_7"
@@ -114,7 +131,10 @@
                     android:layout_weight="1"
                     android:text="7"
                     android:textColor="@color/black"
-                    android:textSize="10sp"></Button>
+                    android:textSize="10sp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textAllCaps="false"></Button>
 
                 <Button
                     android:id="@+id/list_TXT_8"
@@ -124,7 +144,10 @@
                     android:layout_weight="1"
                     android:text="8"
                     android:textColor="@color/black"
-                    android:textSize="10sp"></Button>
+                    android:textSize="10sp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textAllCaps="false"></Button>
 
                 <Button
                     android:id="@+id/list_TXT_9"
@@ -134,7 +157,10 @@
                     android:layout_weight="1"
                     android:text="9"
                     android:textColor="@color/black"
-                    android:textSize="10sp"></Button>
+                    android:textSize="10sp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textAllCaps="false"></Button>
 
                 <Button
                     android:id="@+id/list_TXT_10"
@@ -144,7 +170,10 @@
                     android:layout_weight="1"
                     android:text="10"
                     android:textColor="@color/black"
-                    android:textSize="10sp"></Button>
+                    android:textSize="10sp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textAllCaps="false"></Button>
 
             </LinearLayout>
 

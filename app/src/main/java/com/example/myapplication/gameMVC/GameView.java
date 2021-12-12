@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
@@ -36,10 +37,10 @@ public class GameView {
     private final int ROWS = 7;
     private final int COLS = 5;
 
-    // Sensors and vibrator
     private Vibrator vibrator;
     private Sensor accSensor;
     private SensorManager sensorManager;
+    private MediaPlayer crashSound;
 
     // Helping variables
     private int cells[][] = new int[ROWS][COLS];
@@ -116,6 +117,7 @@ public class GameView {
         if (vibratorFlag) {
             vibrator.vibrate(VIBRATION_TIME);
         }
+        playCrashSound();
     }
 
     public void updatePlayerPosition(int lastPosition, int playerPosition) {
@@ -210,5 +212,15 @@ public class GameView {
     public void concealButtons() {
         panel_BTN_left.setVisibility(View.INVISIBLE);
         panel_BTN_right.setVisibility(View.INVISIBLE);
+    }
+
+    public void playCrashSound() {
+        if (crashSound == null) {
+            crashSound = MediaPlayer.create(activity, R.raw.crash_sound);
+            crashSound.setOnCompletionListener(mp -> {
+                // Do nothing
+            });
+        }
+        crashSound.start();
     }
 }

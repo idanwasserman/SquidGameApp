@@ -25,7 +25,7 @@ public class SettingsDialog extends AppCompatDialogFragment {
     private boolean sounds = false;
     private boolean vibrations = true;
 
-    SettingsDialog(boolean sounds, boolean vibrator) {
+    public SettingsDialog(boolean sounds, boolean vibrator) {
         this.sounds = sounds;
         this.vibrations = vibrator;
     }

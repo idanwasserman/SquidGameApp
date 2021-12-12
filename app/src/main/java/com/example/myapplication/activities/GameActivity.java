@@ -69,7 +69,8 @@ public class GameActivity extends AppCompatActivity {
         GameModel gameModel = new GameModel(
                 nickname,
                 lat,
-                lng);
+                lng,
+                sensorsFlag);
         gameController = new GameController(gameView, gameModel, sensorsFlag);
     }
 

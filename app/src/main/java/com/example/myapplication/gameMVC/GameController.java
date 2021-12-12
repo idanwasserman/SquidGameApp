@@ -52,7 +52,9 @@ public class GameController {
 
             if (theModel.isGameOver()) {
                 stopGame();
-                theView.openActivity(TopTenActivity.class);
+                theView.removeHeart(theModel.getCollisionsCounter());
+                new Handler().postDelayed(() ->
+                        theView.openActivity(TopTenActivity.class), 750);
             }
 
             gameHandler.postDelayed(runnableMethod, theModel.getPeriod());

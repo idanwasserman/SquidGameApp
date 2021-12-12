@@ -7,6 +7,7 @@ public class Record {
     private double lat;
     private double lng;
     private String dateFormat;
+    private boolean sensorsMode;
 
     public Record() {
     }
@@ -56,11 +57,19 @@ public class Record {
         return this;
     }
 
+    public boolean isSensorsMode() {
+        return sensorsMode;
+    }
+
+    public Record setSensorsMode(boolean sensorsMode) {
+        this.sensorsMode = sensorsMode;
+        return this;
+    }
+
     @Override
     public String toString() {
-        if (nickname == null)
-            return score + " pts\n" + dateFormat;
-        return nickname + ": "  + score + " pts\n" + dateFormat;
+        return nickname + " - " + (sensorsMode == true ? "Sensors" : "Buttons")
+                + "\n" + score + " pts, " + dateFormat;
     }
 
 }

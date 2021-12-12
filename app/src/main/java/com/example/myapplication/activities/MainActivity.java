@@ -140,14 +140,8 @@ public class MainActivity extends AppCompatActivity
     public void play() {
         if (mediaPlayer == null) {
             mediaPlayer = MediaPlayer.create(this, R.raw.squid_game_song_remix);
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    play();
-                }
-            });
+            mediaPlayer.setOnCompletionListener(mp -> play());
         }
-
         mediaPlayer.start();
     }
 

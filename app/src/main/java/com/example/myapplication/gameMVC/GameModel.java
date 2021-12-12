@@ -61,11 +61,13 @@ public class GameModel {
 
     private String nickname;
     private double lat, lng;
+    private boolean sensorsMode;
 
-    public GameModel(String nickname, double lat, double lng) {
+    public GameModel(String nickname, double lat, double lng, boolean sensorsMode) {
         this.nickname = nickname;
         this.lat = lat;
         this.lng = lng;
+        this.sensorsMode = sensorsMode;
     }
 
     public int getPeriod() {
@@ -189,6 +191,7 @@ public class GameModel {
                 .setNickname(nickname)
                 .setLat(lat)
                 .setLng(lng)
+                .setSensorsMode(sensorsMode)
                 .setScore(score);
 
         cleanRecordsBelowOneThousandScore(my_db);
@@ -210,7 +213,7 @@ public class GameModel {
         ArrayList<Record> records = my_db.getRecords();
         for (Record r:
              records) {
-            if (r.getScore() >= 1000) {
+            if (r.getScore() >= 400) {
                 newRecords.add(r);
             }
         }

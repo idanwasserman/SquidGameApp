@@ -8,16 +8,20 @@ import com.example.myapplication.objects.Constants;
 import com.example.myapplication.objects.MySharedPreferences;
 import com.example.myapplication.objects.MyDatabase;
 import com.example.myapplication.objects.Record;
+import com.example.myapplication.objects.SortRecordByScore;
 import com.google.gson.Gson;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 public class GameModel {
 
+    private static final int TEN = 10;
     private int period = Constants.MAX_PERIOD;
 
     private int playerPosition = Constants.COLS / 2;
@@ -146,7 +150,7 @@ public class GameModel {
                         Constants.DEFAULT_DB_VALUE    // def value
                 );
         // Convert json to object
-        MyDatabase my_db = new Gson()
+        MyDatabase myDb = new Gson()
                 .fromJson(
                         str_db,
                         MyDatabase.class
@@ -154,7 +158,7 @@ public class GameModel {
 
         DateFormat date = new SimpleDateFormat(Constants.PATTERN);
         String dateFormat = date.format(Calendar.getInstance().getTime());
-        // Create a record and store it in my_db
+        // Create a record and store it in myDb
         Record record = new Record()
                 .setDateFormat(dateFormat)
                 .setNickname(nickname)
@@ -163,17 +167,27 @@ public class GameModel {
                 .setSensorsMode(sensorsMode)
                 .setScore(score);
 
-//        cleanRecordsBelowScore(my_db);
-        my_db.getRecords().add(record);
+//        cleanRecordsBelowScore(myDb);
+        addRecordToDbIfTopTen(record, myDb.getRecords());
+        myDb.getRecords().add(record);
 
-        // Store my_db in app shared preferences
-        String json = new Gson().toJson(my_db);
+        // Store myDb in app shared preferences
+        String json = new Gson().toJson(myDb);
         MySharedPreferences
                 .getInstance()
                 .putString(
                         Constants.MY_DB_NAME,
                         json
                 );
+    }
+
+    private void addRecordToDbIfTopTen(Record r, ArrayList<Record> records) {
+        records.add(r);
+        if (records.size() <= TEN) {
+            return;
+        }
+        Collections.sort(records, new SortRecordByScore());
+        records.remove(0);
     }
 
     private void cleanRecordsBelowScore(@NonNull MyDatabase my_db) {

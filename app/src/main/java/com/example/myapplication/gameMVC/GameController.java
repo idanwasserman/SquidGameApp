@@ -20,6 +20,7 @@ public class GameController {
     private static final int AXIS_Z = 2;
     private static final int TURN_ANGLE = 3;
     private static final long DELAY = 200000000;
+
     private long prevEventTimestamp = 0;
     private final boolean sensorsFlag;
 
@@ -57,7 +58,6 @@ public class GameController {
     private final View.OnClickListener leftButtonListener = v -> movePlayer(Constants.LEFT);
 
     private final View.OnClickListener rightButtonListener = v -> movePlayer(Constants.RIGHT);
-
 
     private final SensorEventListener sensorEventListener = new SensorEventListener() {
         @Override

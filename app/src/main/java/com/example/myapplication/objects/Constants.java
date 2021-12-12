@@ -39,5 +39,7 @@ public class Constants {
     public static final String BUNDLE = "BUNDLE";
     public static final String SENSORS = "SENSORS";
 
+    public static final String DEFAULT_NICKNAME = "Player_456";
+
 
 }

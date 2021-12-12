@@ -19,13 +19,11 @@ import com.example.myapplication.R;
 import com.example.myapplication.objects.Constants;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.Locale;
 import java.util.Objects;
 
 
 public class PlayGameDialog extends AppCompatDialogFragment {
-
-    private static final String DEFAULT_NICKNAME = "Player_456";
-//    private final String SENSORS = "Sensors";
 
     private String nickname = "";
     private boolean sensors = false;
@@ -37,7 +35,6 @@ public class PlayGameDialog extends AppCompatDialogFragment {
     private PlayGameDialogListener playGameDialogListener;
 
     private final AppCompatActivity activity;
-
 
     public PlayGameDialog(AppCompatActivity activity) {
         this.activity = activity;
@@ -69,7 +66,7 @@ public class PlayGameDialog extends AppCompatDialogFragment {
     private void getNickname() {
         nickname = Objects.requireNonNull(dialog_TIET_nickname.getText()).toString();
         if (nickname.length() == 0) {
-            nickname = DEFAULT_NICKNAME;
+            nickname = Constants.DEFAULT_NICKNAME;
         }
     }
 
@@ -86,6 +83,7 @@ public class PlayGameDialog extends AppCompatDialogFragment {
             sensors = radioButton
                     .getText()
                     .toString()
+                    .toUpperCase(Locale.ROOT)
                     .equals(Constants.SENSORS);
         }
     }

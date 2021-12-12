@@ -25,7 +25,6 @@ import java.util.List;
 
 public class Fragment_TopTenList extends Fragment {
 
-    private AppCompatActivity activity;
     private Button[] list_TXT_arr;
     private CallBack_List callBack_list;
     private List<Record> topTen;
@@ -50,105 +49,67 @@ public class Fragment_TopTenList extends Fragment {
         int size = topTen.size();
 
         if (size > 0) {
-            list_TXT_arr[0].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    callBack_list.setMapLocation(topTen.get(0).getLat(), topTen.get(0).getLng());
-                }
-            });
+            list_TXT_arr[0].setOnClickListener(v ->
+                    callBack_list.setMapLocation(topTen.get(0).getLat(), topTen.get(0).getLng()));
         }
 
         if (size > 1) {
-            list_TXT_arr[1].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    callBack_list.setMapLocation(topTen.get(1).getLat(), topTen.get(1).getLng());
-                }
-            });
+            list_TXT_arr[1].setOnClickListener(v ->
+                    callBack_list.setMapLocation(topTen.get(1).getLat(), topTen.get(1).getLng()));
         }
 
         if (size > 2) {
-            list_TXT_arr[2].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    callBack_list.setMapLocation(topTen.get(2).getLat(), topTen.get(2).getLng());
-                }
-            });
+            list_TXT_arr[2].setOnClickListener(v ->
+                    callBack_list.setMapLocation(topTen.get(2).getLat(), topTen.get(2).getLng()));
         }
 
         if (size > 3) {
-            list_TXT_arr[3].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    callBack_list.setMapLocation(topTen.get(3).getLat(), topTen.get(3).getLng());
-                }
-            });
+            list_TXT_arr[3].setOnClickListener(v ->
+                    callBack_list.setMapLocation(topTen.get(3).getLat(), topTen.get(3).getLng()));
         }
 
         if (size > 4) {
-            list_TXT_arr[4].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    callBack_list.setMapLocation(topTen.get(4).getLat(), topTen.get(4).getLng());
-                }
-            });
+            list_TXT_arr[4].setOnClickListener(v ->
+                    callBack_list.setMapLocation(topTen.get(4).getLat(), topTen.get(4).getLng()));
         }
 
         if (size > 5) {
-            list_TXT_arr[5].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    callBack_list.setMapLocation(topTen.get(5).getLat(), topTen.get(5).getLng());
-                }
-            });
+            list_TXT_arr[5].setOnClickListener(v ->
+                    callBack_list.setMapLocation(topTen.get(5).getLat(), topTen.get(5).getLng()));
         }
 
         if (size > 6) {
-            list_TXT_arr[6].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    callBack_list.setMapLocation(topTen.get(6).getLat(), topTen.get(6).getLng());
-                }
-            });
+            list_TXT_arr[6].setOnClickListener(v ->
+                    callBack_list.setMapLocation(topTen.get(6).getLat(), topTen.get(6).getLng()));
         }
 
         if (size > 7) {
-            list_TXT_arr[7].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    callBack_list.setMapLocation(topTen.get(7).getLat(), topTen.get(7).getLng());
-                }
-            });
+            list_TXT_arr[7].setOnClickListener(v ->
+                    callBack_list.setMapLocation(topTen.get(7).getLat(), topTen.get(7).getLng()));
         }
 
         if (size > 8) {
-            list_TXT_arr[8].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    callBack_list.setMapLocation(topTen.get(8).getLat(), topTen.get(8).getLng());
-                }
-            });
+            list_TXT_arr[8].setOnClickListener(v ->
+                    callBack_list.setMapLocation(topTen.get(8).getLat(), topTen.get(8).getLng()));
         }
 
         if (size > 9) {
-            list_TXT_arr[9].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    callBack_list.setMapLocation(topTen.get(9).getLat(), topTen.get(9).getLng());
-                }
-            });
+            list_TXT_arr[9].setOnClickListener(v ->
+                    callBack_list.setMapLocation(topTen.get(9).getLat(), topTen.get(9).getLng()));
         }
     }
 
     private void showTopTenList() {
         int listSize = topTen.size();
         for (int i = 0; i < listSize; i++) {
-            list_TXT_arr[i].setText((i + 1) + ") " + (topTen.get(i).toString()));
+            String txt = (i + 1) + ") " + (topTen.get(i).toString());
+            list_TXT_arr[i].setText(txt);
         }
 
         // If there are less than 10 records --> fill empty lines
         for (int i = listSize; i < TEN; i++) {
-            list_TXT_arr[i].setText((i +1 ) + ")\t-----");
+            String txt = (i +1 ) + ")\t-----";
+            list_TXT_arr[i].setText(txt);
         }
     }
 
@@ -171,10 +132,6 @@ public class Fragment_TopTenList extends Fragment {
 
         // Reverse list
         Collections.reverse(topTen);
-    }
-
-    public void setActivity(AppCompatActivity activity) {
-        this.activity = activity;
     }
 
     public void setCallBack_list(CallBack_List callBack_list) {

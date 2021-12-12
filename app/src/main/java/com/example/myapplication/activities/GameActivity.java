@@ -2,11 +2,7 @@ package com.example.myapplication.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,13 +11,9 @@ import com.example.myapplication.R;
 import com.example.myapplication.gameMVC.GameController;
 import com.example.myapplication.gameMVC.GameModel;
 import com.example.myapplication.gameMVC.GameView;
+import com.example.myapplication.objects.Constants;
 
 public class GameActivity extends AppCompatActivity {
-
-    // Sensors and vibrator
-    private static Vibrator vibrator;
-    private static Sensor accSensor;
-    private static SensorManager sensorManager;
 
     // Panel objects
     private ImageButton panel_BTN_left;
@@ -52,9 +44,6 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         findViews();
-
-        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        initSensor();
 
         unpackBundle();
 
@@ -98,17 +87,12 @@ public class GameActivity extends AppCompatActivity {
         finish();
     }
 
-    private void initSensor() {
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        accSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-    }
-
     public static Bundle getBundle() {
         return bundle;
     }
 
     private void unpackBundle() {
-        bundle = getIntent().getBundleExtra(MainActivity.BUNDLE);
+        bundle = getIntent().getBundleExtra(Constants.BUNDLE);
         nickname = bundle.getString(NICKNAME);
         sensorsFlag = bundle.getBoolean(SENSORS_FLAG);
         vibratorFlag = bundle.getBoolean(VIBRATOR_FLAG);

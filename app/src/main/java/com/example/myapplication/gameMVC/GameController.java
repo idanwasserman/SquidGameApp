@@ -5,28 +5,23 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Handler;
-import android.os.Vibrator;
 import android.view.View;
 
 import com.example.myapplication.activities.TopTenActivity;
+import com.example.myapplication.objects.Constants;
 
 public class GameController {
 
-    private Handler gameHandler;
-    private GameView theView;
-    private GameModel theModel;
-
-    // Sensors and vibrator
-    private static Vibrator vibrator;
-    private static Sensor accSensor;
-    private static SensorManager sensorManager;
+    private final Handler gameHandler;
+    private final GameView theView;
+    private final GameModel theModel;
 
     private static final int AXIS_X = 0;
     private static final int AXIS_Z = 2;
     private static final int TURN_ANGLE = 3;
     private static final long DELAY = 200000000;
-    private long currEventTimestamp = 0, prevEventTimestamp = 0;
-    private boolean sensorsFlag;
+    private long prevEventTimestamp = 0;
+    private final boolean sensorsFlag;
 
     public GameController(GameView theView, GameModel theModel, boolean sensorsFlag) {
         gameHandler = new Handler();
@@ -37,14 +32,12 @@ public class GameController {
         if (sensorsFlag) {
             theView.initSensors();
             theView.concealButtons();
-            // TODO: delete line below, uncomment line above, implement moving by sensors
-            //theView.addButtonsListeners(leftButtonListener, rightButtonListener);
         } else {
             theView.addButtonsListeners(leftButtonListener, rightButtonListener);
         }
     }
 
-    private Runnable runnableMethod = new Runnable() {
+    private final Runnable runnableMethod = new Runnable() {
         @Override
         public void run() {
             theModel.timerMethod();
@@ -61,25 +54,15 @@ public class GameController {
         }
     };
 
-    private final View.OnClickListener leftButtonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            movePlayer(Constants.LEFT);
-        }
-    };
+    private final View.OnClickListener leftButtonListener = v -> movePlayer(Constants.LEFT);
 
-    private final View.OnClickListener rightButtonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            movePlayer(Constants.RIGHT);
-        }
-    };
+    private final View.OnClickListener rightButtonListener = v -> movePlayer(Constants.RIGHT);
 
 
     private final SensorEventListener sensorEventListener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent event) {
-            currEventTimestamp = event.timestamp;
+            long currEventTimestamp = event.timestamp;
             int x = (int) event.values[AXIS_X];
             int z = (int) event.values[AXIS_Z];
 

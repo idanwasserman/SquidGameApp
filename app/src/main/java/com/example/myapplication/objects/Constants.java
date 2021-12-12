@@ -1,4 +1,4 @@
-package com.example.myapplication.gameMVC;
+package com.example.myapplication.objects;
 
 public class Constants {
 
@@ -35,5 +35,9 @@ public class Constants {
 
     public static final String MY_DB_NAME = "SQUID_GAME_DB";
     public static final String DEFAULT_DB_VALUE = "{\"records\":[]}";
+
+    public static final String BUNDLE = "BUNDLE";
+    public static final String SENSORS = "SENSORS";
+
 
 }

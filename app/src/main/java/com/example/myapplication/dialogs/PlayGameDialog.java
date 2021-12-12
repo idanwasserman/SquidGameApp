@@ -3,7 +3,6 @@ package com.example.myapplication.dialogs;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,13 +16,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.example.myapplication.R;
+import com.example.myapplication.objects.Constants;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.Objects;
 
 
 public class PlayGameDialog extends AppCompatDialogFragment {
 
     private static final String DEFAULT_NICKNAME = "Player_456";
-    private final String SENSORS = "Sensors";
+//    private final String SENSORS = "Sensors";
 
     private String nickname = "";
     private boolean sensors = false;
@@ -34,7 +36,7 @@ public class PlayGameDialog extends AppCompatDialogFragment {
 
     private PlayGameDialogListener playGameDialogListener;
 
-    private AppCompatActivity activity;
+    private final AppCompatActivity activity;
 
 
     public PlayGameDialog(AppCompatActivity activity) {
@@ -45,31 +47,27 @@ public class PlayGameDialog extends AppCompatDialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
+        LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
         View view = inflater.inflate(R.layout.layout_play_dialog, null);
         findViews(view);
 
         builder
                 .setView(view)
                 .setTitle(R.string.play)
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) { }
+                .setNegativeButton(R.string.cancel, (dialog, which) -> {
+                    // Do nothing
                 })
-                .setPositiveButton(R.string.start_game, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        getNickname();
-                        getRadioGroupChoice(view);
-                        playGameDialogListener.apply(nickname, sensors);
-                    }
+                .setPositiveButton(R.string.start_game, (dialog, which) -> {
+                    getNickname();
+                    getRadioGroupChoice(view);
+                    playGameDialogListener.apply(nickname, sensors);
                 });
 
         return builder.create();
     }
 
     private void getNickname() {
-        nickname = dialog_TIET_nickname.getText().toString();
+        nickname = Objects.requireNonNull(dialog_TIET_nickname.getText()).toString();
         if (nickname.length() == 0) {
             nickname = DEFAULT_NICKNAME;
         }
@@ -88,7 +86,7 @@ public class PlayGameDialog extends AppCompatDialogFragment {
             sensors = radioButton
                     .getText()
                     .toString()
-                    .equals(SENSORS);
+                    .equals(Constants.SENSORS);
         }
     }
 

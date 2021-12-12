@@ -10,6 +10,7 @@ import com.example.myapplication.interfaces.CallBack_List;
 import com.example.myapplication.R;
 import com.example.myapplication.fragments.Fragment_Map;
 import com.example.myapplication.fragments.Fragment_TopTenList;
+import com.example.myapplication.objects.Constants;
 import com.google.android.gms.maps.model.LatLng;
 
 public class TopTenActivity extends AppCompatActivity {
@@ -31,16 +32,14 @@ public class TopTenActivity extends AppCompatActivity {
 
         // Top ten list fragment
         fragment_topTenList = new Fragment_TopTenList();
-        fragment_topTenList.setActivity(this);
         fragment_topTenList.setCallBack_list(callBack_list);
         getSupportFragmentManager().beginTransaction().add(R.id.frame1, fragment_topTenList).commit();
 
         // Map fragment
         fragment_map = new Fragment_Map();
-        fragment_map.setActivity(this);
         getSupportFragmentManager().beginTransaction().add(R.id.frame2, fragment_map).commit();
 
-        Bundle bundle = getIntent().getBundleExtra(MainActivity.BUNDLE);
+        Bundle bundle = getIntent().getBundleExtra(Constants.BUNDLE);
         double lat = bundle.getDouble(GameActivity.LAT);
         double lng = bundle.getDouble(GameActivity.LNG);
     }

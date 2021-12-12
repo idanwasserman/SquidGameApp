@@ -1,6 +1,5 @@
 package com.example.myapplication.activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -20,10 +19,9 @@ import android.widget.Button;
 import com.example.myapplication.R;
 import com.example.myapplication.dialogs.PlayGameDialog;
 import com.example.myapplication.dialogs.SettingsDialog;
+import com.example.myapplication.objects.Constants;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
 import java.util.List;
@@ -31,7 +29,6 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
         implements SettingsDialog.SettingsDialogListener, PlayGameDialog.PlayGameDialogListener {
-
 
     private Button main_BTN_play;
     private Button main_BTN_topTen;
@@ -46,7 +43,6 @@ public class MainActivity extends AppCompatActivity
     private MediaPlayer mediaPlayer;
     private double lat, lng;
 
-    public static final String BUNDLE = "BUNDLE";
     private Bundle bundle;
 
     @Override
@@ -81,11 +77,11 @@ public class MainActivity extends AppCompatActivity
         finish();
     }
 
-    private View.OnClickListener playBtnListener = v -> openPlayGameDialog();
+    private final View.OnClickListener playBtnListener = v -> openPlayGameDialog();
 
-    private View.OnClickListener topTenBtnListener = v -> openActivity(TopTenActivity.class);
+    private final View.OnClickListener topTenBtnListener = v -> openActivity(TopTenActivity.class);
 
-    private View.OnClickListener settingsBtnListener = v -> openSettingsDialog();
+    private final View.OnClickListener settingsBtnListener = v -> openSettingsDialog();
 
     private void openSettingsDialog() {
         SettingsDialog settingsDialog = new SettingsDialog(soundsFlag, vibrationsFlag);
@@ -100,7 +96,7 @@ public class MainActivity extends AppCompatActivity
     private void openActivity(Class c) {
         Intent intent = new Intent(getApplicationContext(), c);
         packBundle();
-        intent.putExtra(BUNDLE, bundle); // Add bundle to intent
+        intent.putExtra(Constants.BUNDLE, bundle); // Add bundle to intent
         startActivity(intent);
     }
 
@@ -153,22 +149,19 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressLint("MissingPermission")
     private void getCurrentLocation() {
-        fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
-            @Override
-            public void onComplete(@NonNull Task<Location> task) {
-                Location location = task.getResult();
-                if (location != null) {
-                    try {
-                        Geocoder geocoder = new Geocoder(MainActivity.this,
-                                Locale.getDefault());
-                        List<Address> addressList = geocoder.getFromLocation(
-                                location.getLatitude(), location.getLongitude(), 1
-                        );
-                        lat = addressList.get(0).getLatitude();
-                        lng = addressList.get(0).getLongitude();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+        fusedLocationProviderClient.getLastLocation().addOnCompleteListener(task -> {
+            Location location = task.getResult();
+            if (location != null) {
+                try {
+                    Geocoder geocoder = new Geocoder(MainActivity.this,
+                            Locale.getDefault());
+                    List<Address> addressList = geocoder.getFromLocation(
+                            location.getLatitude(), location.getLongitude(), 1
+                    );
+                    lat = addressList.get(0).getLatitude();
+                    lng = addressList.get(0).getLongitude();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         });

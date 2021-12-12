@@ -7,7 +7,7 @@ public class MySharedPreferences {
 
     private static MySharedPreferences instance;
     private final String SP_FILE_NAME = "SP_FILE";
-    private SharedPreferences sharedPreferences;
+    private final SharedPreferences sharedPreferences;
 
     public static MySharedPreferences getInstance() {
         return instance;
@@ -17,11 +17,10 @@ public class MySharedPreferences {
         sharedPreferences = context.getApplicationContext().getSharedPreferences(SP_FILE_NAME,Context.MODE_PRIVATE);
     }
 
-    public static MySharedPreferences init(Context context) {
+    public static void init(Context context) {
         if (instance == null) {
             instance = new MySharedPreferences(context);
         }
-        return instance;
     }
 
     public double getDouble(String KEY, double defaultValue) {

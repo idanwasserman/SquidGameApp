@@ -15,8 +15,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.activities.GameActivity;
-import com.example.myapplication.activities.MainActivity;
 import com.example.myapplication.R;
+import com.example.myapplication.objects.Constants;
 
 public class GameView {
 
@@ -26,20 +26,20 @@ public class GameView {
     private MediaPlayer crashSound;
 
     // Helping variables
-    private int cells[][] = new int[Constants.ROWS][Constants.COLS];
+    private int[][] cells = new int[Constants.ROWS][Constants.COLS];
     private int score, lastPosition, playerPosition;
     private String lastScoreText = "Score: 0";
-    private boolean vibratorFlag;
+    private final boolean vibratorFlag;
 
     // Panel objects
-    private ImageButton panel_BTN_left;
-    private ImageButton panel_BTN_right;
-    private ImageView[][] panel_IMG_matrix;
-    private ImageView[] panel_ICN_hearts;
-    private TextView panel_TXT_score;
+    private final ImageButton panel_BTN_left;
+    private final ImageButton panel_BTN_right;
+    private final ImageView[][] panel_IMG_matrix;
+    private final ImageView[] panel_ICN_hearts;
+    private final TextView panel_TXT_score;
 
     // Game Activity
-    private AppCompatActivity activity;
+    private final AppCompatActivity activity;
 
     public GameView(
             AppCompatActivity activity,
@@ -110,12 +110,12 @@ public class GameView {
         activity.runOnUiThread(updatePlayerPosition);
     }
 
-    private Runnable updateUI = () -> {
+    private final Runnable updateUI = () -> {
         updateScoreLabel();
         updateBlocksImages();
     };
 
-    private Runnable updatePlayerPosition = new Runnable() {
+    private final Runnable updatePlayerPosition = new Runnable() {
         public void run() {
             panel_IMG_matrix[Constants.ROWS - 1][lastPosition]
                     .setImageResource(0);
@@ -188,7 +188,7 @@ public class GameView {
     public void openActivity(Class c) {
         Intent intent = new Intent(activity.getApplicationContext(), c);
         // Add bundle to intent
-        intent.putExtra(MainActivity.BUNDLE, GameActivity.getBundle());
+        intent.putExtra(Constants.BUNDLE, GameActivity.getBundle());
         activity.startActivity(intent);
     }
 

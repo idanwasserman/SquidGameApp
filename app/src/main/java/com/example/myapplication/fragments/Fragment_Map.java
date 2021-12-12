@@ -7,26 +7,22 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class Fragment_Map extends Fragment {
 
-    private AppCompatActivity activity;
-
-    private boolean isMapReady = false;
     private GoogleMap mMap;
     private MarkerOptions markerOptions;
     private final int ZOOM = 15;
     private final LatLng collegeLocation = new LatLng(32.115139,34.817804);
+    private boolean isMapReady = false;
 
     @Nullable
     @Override
@@ -37,29 +33,23 @@ public class Fragment_Map extends Fragment {
         SupportMapFragment supportMapFragment = (SupportMapFragment)
                 getChildFragmentManager().findFragmentById(R.id.google_map);
         // Async map
-        supportMapFragment.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(@NonNull GoogleMap googleMap) {
-                mMap = googleMap;
-                isMapReady = true;
+        assert supportMapFragment != null;
+        supportMapFragment.getMapAsync(googleMap -> {
+            mMap = googleMap;
+            isMapReady = true;
 
-                // Set map to zoom on college location at first
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(collegeLocation, ZOOM));
+            // Set map to zoom on college location at first
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(collegeLocation, ZOOM));
 
-                // Initialize marker options
-                markerOptions = new MarkerOptions();
-                markerOptions.position(collegeLocation);
-                // Add marker on map
-                mMap.clear();
-                mMap.addMarker(markerOptions);
-            }
+            // Initialize marker options
+            markerOptions = new MarkerOptions();
+            markerOptions.position(collegeLocation);
+            // Add marker on map
+            mMap.clear();
+            mMap.addMarker(markerOptions);
         });
 
         return view;
-    }
-
-    public void setActivity(AppCompatActivity activity) {
-        this.activity = activity;
     }
 
     public void setFocusOnMapByLocation(LatLng latLng) {
@@ -70,11 +60,4 @@ public class Fragment_Map extends Fragment {
         mMap.addMarker(markerOptions);
     }
 
-    public boolean isMapReady() {
-        return isMapReady;
-    }
-
-    public void setMapReady(boolean mapReady) {
-        isMapReady = mapReady;
-    }
 }

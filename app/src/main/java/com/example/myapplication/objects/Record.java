@@ -68,7 +68,7 @@ public class Record {
 
     @Override
     public String toString() {
-        return nickname + " - " + (sensorsMode == true ? "Sensors" : "Buttons")
+        return nickname + " - " + (sensorsMode ? "Sensors" : "Buttons")
                 + "\n" + score + " pts, " + dateFormat;
     }
 

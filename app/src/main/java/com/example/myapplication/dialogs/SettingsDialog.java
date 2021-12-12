@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 import com.example.myapplication.R;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
+import java.util.Objects;
+
 public class SettingsDialog extends AppCompatDialogFragment {
 
     private SwitchMaterial settings_SWITCH_sounds;
@@ -34,7 +36,7 @@ public class SettingsDialog extends AppCompatDialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
+        LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
         View view = inflater.inflate(R.layout.layout_settings_dialog, null);
         findViews(view);
 
@@ -44,18 +46,10 @@ public class SettingsDialog extends AppCompatDialogFragment {
         builder
                 .setView(view)
                 .setTitle(R.string.settings)
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) { }
-                })
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        settingsDialogListener.applySettings(
-                                settings_SWITCH_sounds.isChecked(),
-                                settings_SWITCH_vibrations.isChecked());
-                    }
-                });
+                .setNegativeButton(R.string.cancel, (dialog, which) -> { })
+                .setPositiveButton(R.string.ok, (dialog, which) -> settingsDialogListener.applySettings(
+                        settings_SWITCH_sounds.isChecked(),
+                        settings_SWITCH_vibrations.isChecked()));
 
         return builder.create();
     }
